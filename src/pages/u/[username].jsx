@@ -24,7 +24,7 @@ const UserPage = () => {
   }, [username]);
 
   return (
-    <div className="mx-auto max-w-3xl p-4 mt-12 bg-[#f2f5f8]">
+    <div className="mx-auto p-0 mt-8 bg-[#f2f5f8]">
       {userData ? (
         /*  <div className="bg-white rounded-lg shadow-lg p-4">
           <div>
@@ -82,19 +82,23 @@ const UserPage = () => {
           </div>
         </div> */
         <NewProfilePage
-          profileImage={userData.profile_img_url}
-          profileCoverImage={userData.profile_cover_url}
-          hourly_rate={userData.hourly_rate}
-          description={userData.description}
-          keyword={userData.keyword}
-          portfolio={userData.portfolio}
-          name={userData.first_name}
-          isFreelancer={userData.is_freelancer}
-          isEmployer={userData.is_an_employer}
-          isAdmin={userData.isAdmin}
-          username={userData.username}
-          city={userData.address_city}
-          country={userData.address_country}
+            profileImage={userData.profile_img_url}
+            profileCoverImage={userData.profile_cover_url}
+            hourly_rate={userData.hourly_rate}
+            description={userData.description}
+            keyword={userData.keyword}
+            portfolio={userData.portfolio}
+            name={userData.first_name + ' ' + userData.last_name}
+            isFreelancer={userData.is_freelancer}
+            isEmployer={userData.is_an_employer}
+            isAdmin={userData.is_controller}
+            username={userData.username}
+            city={userData.address_city}
+            country={userData.address_country}
+            number_of_reviews={userData.number_of_reviews}
+            rating={userData.rating}
+            joined={userData.joined}
+            isPublic={true}
         />
       ) : (
         <p>Loading userData...</p>

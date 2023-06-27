@@ -323,6 +323,7 @@ function MyProfile() {
             country={profile.address_country}
             editProfile={handleEditProfile}
             loading={loading}
+            isPublic={false}
           />
         </>
       ) : (

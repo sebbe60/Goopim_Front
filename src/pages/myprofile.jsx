@@ -328,6 +328,7 @@ function MyProfile() {
             joined={profile.joined}
             editProfile={handleEditProfile}
             loading={loading}
+            isPublic={false}
           />
         </>
       ) : (
@@ -586,14 +587,20 @@ export const NewProfilePage = (props) => {
                 </div>
                 <div className="w-full lg:w-4/12 px-0 md:px-4 lg:order-3 lg:text-right lg:self-center">
                   <div className="py-6 px-0 md:px-4 sm:mt-0 flex justify-between lg:justify-end align-middle">
-                    <button 
-                      className="text-white text-xs py-2 px-4 uppercase rounded bg-orange-500 active:bg-orange-600 hover:bg-orange-600 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1 " type="button"
-                      onClick={() => {
-                        props.editProfile();
-                      }}
-                    >
-                      Edit
-                    </button>
+
+                    {
+                      props.isPublic ? 
+                      <></>
+                      :
+                      <button 
+                        className="text-white text-xs py-2 px-4 uppercase rounded bg-orange-500 active:bg-orange-600 hover:bg-orange-600 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1 " type="button"
+                        onClick={() => {
+                          props.editProfile();
+                        }}
+                      >
+                        Edit
+                      </button>
+                    }
 
                     {/* <button 
                       className="text-white text-xs py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1" type="button"
@@ -670,9 +677,9 @@ export const NewProfilePage = (props) => {
                   <span className="pt-2">
                     {props.city}, {props.country}
                   </span>
-                  <Link href={`localhost:3000/u/${props.username}`} className="p-2">
+                  {/* <Link href={`localhost:3000/u/${props.username}`} className="p-2">
                     @{props.username}
-                  </Link>
+                  </Link> */}
                 </div>
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                   Joined: { formatDate(props.joined) }

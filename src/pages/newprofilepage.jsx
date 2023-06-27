@@ -359,6 +359,7 @@ function MyProfile() {
             city={profile.address_city}
             country={profile.address_country}
             editProfile={handleEditProfile}
+            isPublic={false}
           />
         </>
       ) : (
