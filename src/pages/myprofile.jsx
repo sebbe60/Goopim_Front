@@ -169,6 +169,7 @@ function MyProfile() {
   function handleRefreshClick() {
     router.reload();
   }
+  
   useEffect(() => {
     const fetchProfile = async () => {
       setLoading(true);
@@ -283,7 +284,7 @@ function MyProfile() {
   };
 
   return (
-    <div className="mx-auto p-0 mt-8 bg-[#f2f5f8]">
+    <div className="mx-auto p-0 mt-0 bg-[#f2f5f8]">
 
       {loading && (
         <div className="text-center">
