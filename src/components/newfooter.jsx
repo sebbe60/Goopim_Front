@@ -4,7 +4,7 @@ export default function Footer() {
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   return (
-    <footer className="w-full pt-4  bg-[#222222] mt-12 text-gray-300  font-roboto-condensed leading-8 tracking-normal">
+    <footer className="w-full pt-4  bg-[#222222] mt-0 text-gray-300  font-roboto-condensed leading-8 tracking-normal">
       <div className="w-full flex flex-col items-center ">
         <div className="flex jusitify-between bg-[#222222] my-8 ">
           <Link href="" className="rounded-full">

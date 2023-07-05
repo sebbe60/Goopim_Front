@@ -5,7 +5,7 @@ import StarRating from "@/components/starrating";
 import Link from "next/link";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { toast } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_URL } from "@/utils";
 import { AuthContext } from "./_app";
@@ -17,6 +17,7 @@ import ImageUploader from "@/components/imageuloader";
 import CloudinaryUploader from "@/components/profileimageupload";
 import GoopimUserAddress from "@/components/usersaddress";
 import ProfileCoverUploader from "@/components/profilecoveruploader";
+import useLocalStorage from "use-local-storage";
 
 function MyProfile() {
   //const { isAuthenticated, user } = useContext(AuthContext);
@@ -168,6 +169,7 @@ function MyProfile() {
   function handleRefreshClick() {
     router.reload();
   }
+  
   useEffect(() => {
     const fetchProfile = async () => {
       setLoading(true);
@@ -282,7 +284,7 @@ function MyProfile() {
   };
 
   return (
-    <div className="mx-auto p-0 mt-8 bg-[#f2f5f8]">
+    <div className="mx-auto p-0 mt-0 bg-[#f2f5f8]">
 
       {loading && (
         <div className="text-center">
@@ -326,6 +328,8 @@ function MyProfile() {
             number_of_reviews={profile.number_of_reviews}
             rating={profile.rating}
             joined={profile.joined}
+            public_id={profile.public_id}
+            id={profile.id}
             editProfile={handleEditProfile}
             loading={loading}
             isPublic={false}
@@ -557,6 +561,19 @@ function MyProfile() {
 export const NewProfilePage = (props) => {
   const router = useRouter();
 
+  const [messageText, setMessageText] = useState("");
+  const [userId, setUserId] = useLocalStorage("userId", "");
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  useEffect(() => {
+    if (!!localStorage.getItem("token")) {
+      setIsLoggedIn(true);
+    }
+    window.CometChat = require("@cometchat-pro/chat").CometChat;
+  }, []);
+
+
   function formatDate(dateString) {
     const dateObject = new Date(dateString);
   
@@ -565,12 +582,79 @@ export const NewProfilePage = (props) => {
     const day = dateObject.getDate();
   
     return `${year}-${month}-${day}`;
-  }  
+  } 
+
+
+  const sendFirstMessage = (receiver_id) => {
+    //emit conversation id and current-loggen user in and the other user id
+    //then run a check before joining the conversation room
+
+    const data = {
+      sender_id: userId,
+      receiver_id: receiver_id,
+
+      text: messageText,
+      type: "normal",
+    };
+    console.log("authUserId", userId);
+
+    fetch(`${BACKEND_URL}/api/messages`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${localStorage.getItem("token")}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        if (!!data.error) {
+
+          console.log('data.error');
+          console.log(data.error);
+          toast.error(data.error);
+        } else {
+          router.push(`/chatcontainer`);
+        }
+      })
+      .catch((error) => {
+        toast.error(error.response.error);
+      });
+  };
+
+  const handleChatButtonClick = (receiver_id) => {
+    if (isLoggedIn) {
+      let receiverID = receiver_id;
+
+      let receiverType = CometChat.RECEIVER_TYPE.USER;
+      let messageText = "Hi, I want to hire you for me project";
+
+      const message = new CometChat.TextMessage(
+        receiver_id,
+        messageText,
+        receiverType
+      );
+      // Code to handle the action when the user is logged in
+      CometChat.sendMessage(message).then(
+        (message) => {
+          router.push("/message");
+        },
+        (error) => {
+          // Handle message sending error
+          console.log("error sending msg", error);
+        }
+      );
+      //dispatch(setReceiverId(receiver_id));
+      //window.CometChatWidget.chatWithUser(receiver_id);
+    } else {
+      setShowModal(true);
+    }
+  };
+
 
   return (
     <div className="">
-
-
+      <ToastContainer />
       <div className="relative block h-[500px]">
         <img src={props.profileCoverImage} className="center w-full h-full object-cover" />
       </div>
@@ -590,7 +674,25 @@ export const NewProfilePage = (props) => {
 
                     {
                       props.isPublic ? 
-                      <></>
+                      <>
+                        <button 
+                          className="text-white text-xs py-2 px-4 uppercase rounded bg-orange-500 active:bg-orange-600 hover:bg-orange-600 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1 " type="button"
+                          onClick={() => {
+                            sendFirstMessage(props.id);
+                          }}
+                        >
+                          Hire me
+                        </button>
+
+                        <button 
+                          className="text-white text-xs py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1" type="button"
+                          onClick={() => {
+                            handleChatButtonClick(props.public_id);
+                          }}
+                        >
+                          Message
+                        </button>
+                      </>
                       :
                       <button 
                         className="text-white text-xs py-2 px-4 uppercase rounded bg-orange-500 active:bg-orange-600 hover:bg-orange-600 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1 " type="button"
@@ -645,17 +747,17 @@ export const NewProfilePage = (props) => {
                   {props.isFreelancer ? (
                     <>
                       {' '}
-                      <sup class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">Freelancer</sup>
+                      <sup className="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">Freelancer</sup>
                     </>
                   ) : props.isEmployer ? (
                     <>
                       {' '}
-                      <sup class="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-indigo-400 border border-indigo-400">Employer</sup>
+                      <sup className="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-indigo-400 border border-indigo-400">Employer</sup>
                     </>
                   ) : props.isAdmin ? (
                     <>
                       {' '}
-                      <sup class="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">Administrator</sup>
+                      <sup className="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">Administrator</sup>
                     </>
                   ) : ''}
                 </h3>
@@ -700,7 +802,7 @@ export const NewProfilePage = (props) => {
                 <ul className="flex flex-wrap justify-center">
                   {props && props.keyword ? (
                     props.keyword.split(", ").map((skill, index) => (
-                      <span  key={index} class="bg-gray-100 text-gray-800 capitalize text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">{!!skill ? skill : "Edit and update your profile"}</span>
+                      <span  key={index} className="bg-gray-100 text-gray-800 capitalize text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">{!!skill ? skill : "Edit and update your profile"}</span>
                     ))
                   ) : (
                     <li className="px-2 py-1 rounded bg-blue-100 text-gray-600 mr-2 mb-2">

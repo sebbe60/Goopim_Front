@@ -28,7 +28,7 @@ export default function HomePage() {
     setIsExpanded((prevExpanded) => !prevExpanded);
   };
   return (
-    <div className="bg-[#272727]">
+    <div className="bg-white">
       <NewHomepage></NewHomepage>
       {/* <div className="relative isolate px-6 pt-14 lg:px-8">
         <div className="signup-space">

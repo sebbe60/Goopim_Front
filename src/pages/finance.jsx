@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectAuthState } from "../store/slices/authSlice";
 import { BACKEND_URL } from "@/utils";
+
 const FinanceDashboard = () => {
   const router = useRouter();
   //const { isAuthenticated, user } = useContext(AuthContext);

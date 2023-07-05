@@ -1,13 +1,16 @@
 import { TrophyIcon } from "@heroicons/react/24/outline";
 import HomepageProviderSearch from "@/components/homeprovidersearch";
+import HomepageProviderSearchNew from "@/components/homeprovidersearchNew";
 const NewHomepage = (props) => {
   return (
-    <div className="w-full min-h-400 pb-12 bg-gradient-to-r from-[#5CBCD1] to-[#7D2CE6]">
-      <div className="mx-auto max-w-2xl py-32 sm:py-5 lg:py-10">
-        {/* Searchbar */}
+    <>
+      <div
+        class="relative mt-0 overflow-hidden md:mt-18 bg-gradient-to-b from-gray-50 to-white py-32"
+        style={{ backgroundImage: "url('/home/bg.jpg')" }}
+      >
+        <HomepageProviderSearchNew />
       </div>
-      <HomepageProviderSearch />
-    </div>
+    </>
   );
 };
 export default NewHomepage;
