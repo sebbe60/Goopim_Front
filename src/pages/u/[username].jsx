@@ -98,8 +98,6 @@ const UserPage = () => {
             number_of_reviews={userData.number_of_reviews}
             rating={userData.rating}
             joined={userData.joined}
-            public_id={userData.public_id}
-            id={userData.id}
             isPublic={true}
         />
       ) : (

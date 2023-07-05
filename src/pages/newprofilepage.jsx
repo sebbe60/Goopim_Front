@@ -358,8 +358,6 @@ function MyProfile() {
             username={profile.username}
             city={profile.address_city}
             country={profile.address_country}
-            public_id={profile.public_id}
-            id={profile.id}
             editProfile={handleEditProfile}
             isPublic={false}
           />
