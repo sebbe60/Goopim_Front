@@ -24,7 +24,7 @@ const ContractForm = (props) => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       });
-      toast.success("Contract created successfully!");
+      toast.success("Contract sent, check contract tab!");
       console.log(response.data);
       handleClick();
     } catch (error) {

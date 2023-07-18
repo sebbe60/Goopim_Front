@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, use } from "react";
 import axios from "axios";
 
 import useLocalStorage from "use-local-storage";
@@ -24,6 +24,7 @@ import { useDispatch } from "react-redux";
 import { setAuthUser } from "@/store/slices/authSlice";
 import { setAuthState } from "@/store/slices/authSlice";
 import { setReceiverId } from "@/store/slices/authSlice";
+import NewContract from "@/pages/newcontract";
 const Login = (props) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -307,6 +308,8 @@ function HomepageProviderSearch() {
   const [recipientUser, setRecipientUser] = useState("");
   const [registerView, setRegisterView] = useState(true);
   const [loginView, setLoginView] = useState(false);
+  const [contractPopup, setContractPopup] = useState(false);
+  const [providerId, setProviderId] = useState(0);
 
   const dispatch = useDispatch();
   const router = useRouter();
@@ -423,6 +426,14 @@ function HomepageProviderSearch() {
   const handleRegisterViewChange = () => {
     setRegisterView(!registerView);
   };
+  const closePopup = () => {
+    setContractPopup(false);
+  };
+  const openPopup = (provider_id) => {
+    setProviderId(provider_id);
+    setContractPopup(true);
+  };
+
   return (
     <div class="relative pb-4">
       <main class="px-4 mx-auto mt-10 max-w-7xl sm:mt-14">
@@ -638,7 +649,7 @@ function HomepageProviderSearch() {
 
                               <button
                                 onClick={() => {
-                                  sendFirstMessage(provider.id);
+                                  openPopup(provider.id);
                                 }}
                                 className="bg-secondary hover:bg-primary text-white font-bold py-1 px-1  m-1 rounded-md w-24"
                               >
@@ -682,6 +693,12 @@ function HomepageProviderSearch() {
             </div>
           </div>
         </div>
+        <NewContract
+          recipientUser={providerId}
+          closePopup={closePopup}
+          openPopup={openPopup}
+          contractPopup={contractPopup}
+        />
       </main>
     </div>
   );
