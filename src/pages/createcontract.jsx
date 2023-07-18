@@ -10,9 +10,7 @@ const ContractForm = (props) => {
     //while the provider id here is other user id, in this case the the user
     //that will be receiving the contract.
     //conclusion the mix up here is not by mistake
-    user_id: props.providerId,
-    provider_id: props.userId,
-    conversation_id: props.conversationId,
+    provider_id: props.providerId,
     contract_title: "",
     contract_details: "",
     contract_amount: "",
@@ -51,27 +49,12 @@ const ContractForm = (props) => {
         onSubmit={handleSubmit}
       >
         <h2 className="text-2xl font-semibold mb-4">Create a Contract</h2>
-        <div className="mb-4">
-          <input
-            type="hidden"
-            id="user_id"
-            name="user_id"
-            className="w-full p-2 border border-gray-300 rounded"
-            onChange={handleChange}
-          />
-        </div>
+
         <div className="mb-4">
           <input
             type="hidden"
             id="provider_id"
             name="provider_id"
-            className="w-full p-2 border border-gray-300 rounded"
-            onChange={handleChange}
-          />
-          <input
-            type="hidden"
-            id="conversation_id"
-            name="conversation_id"
             className="w-full p-2 border border-gray-300 rounded"
             onChange={handleChange}
           />
