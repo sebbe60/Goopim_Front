@@ -3,7 +3,11 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 
 import { Dialog } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon, ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  XMarkIcon,
+  ArrowsPointingOutIcon,
+} from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
 import { setAuthState } from "@/store/slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
@@ -14,7 +18,7 @@ import axios from "axios";
 const navigation = [
   { name: "Projects", href: "/myprojects" },
   { name: "Messages", href: "/message" },
-  { name: "Contract", href: "/contract" },
+  { name: "Contract", href: "/mycontract" },
 ];
 
 const Navbar = () => {
@@ -49,10 +53,10 @@ const Navbar = () => {
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -74,28 +78,25 @@ const Navbar = () => {
     };
 
     const fetchBalance = async () => {
-        try {
-          const response = await axios.get(`${BACKEND_URL}/balance`, {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`, // replace with your authorization header
-            },
-          });
-          setBalance(response.data.balance);
-          console.log(response.data.balance);
-        } catch (error) {
-          console.error(error);
-        }
-        setLoading(false);
-      };
-
-      if(isLoggedIn) {
-        
-            fetchProfile();
-            fetchBalance();
-
+      try {
+        const response = await axios.get(`${BACKEND_URL}/balance`, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`, // replace with your authorization header
+          },
+        });
+        setBalance(response.data.balance);
+        console.log(response.data.balance);
+      } catch (error) {
+        console.error(error);
       }
+      setLoading(false);
+    };
 
-    }, [isLoggedIn]);
+    if (isLoggedIn) {
+      fetchProfile();
+      fetchBalance();
+    }
+  }, [isLoggedIn]);
 
   const handleLogout = () => {
     // Remove token from localStorage and redirect to homepage
@@ -114,9 +115,7 @@ const Navbar = () => {
           router.pathname === "/landingpage"
             ? "flex items-center justify-between px-6 py-3 lg:px-8 fixed top-0 w-full"
             : "flex items-center justify-between px-6 py-3 lg:px-8 fixed top-0 w-full"
-        } ${
-          isScrolled ? '' : 'bg-transparent'
-        }
+        } ${isScrolled ? "" : "bg-transparent"}
         `}
         aria-label="Global"
       >
@@ -125,7 +124,7 @@ const Navbar = () => {
             <span className="sr-only">GOOPIM</span>
             <img
               className="h-8 w-auto"
-              src={isScrolled ? '/logo-light.png' : '/logo-dark.png'}
+              src={isScrolled ? "/logo-light.png" : "/logo-dark.png"}
               alt="GOOPIM"
             />
           </Link>
@@ -144,8 +143,7 @@ const Navbar = () => {
           className="hidden lg:flex lg:gap-x-12"
           onClick={() => setMobileMenuOpen(false)}
         >
-
-          { !isLoggedIn &&
+          {!isLoggedIn && (
             <>
               <Link
                 href="/about"
@@ -168,8 +166,8 @@ const Navbar = () => {
                 Blogs
               </Link>
             </>
-          }
-          
+          )}
+
           {isLoggedIn &&
             navigation.map((item) => (
               <Link
@@ -197,8 +195,8 @@ const Navbar = () => {
               </Link>
 
               <Link
-              href="/register"
-              className={`text-sm capitalize leading-6 px-5 py-2 flex justify-center items-center cursor-pointer bg-white`}
+                href="/register"
+                className={`text-sm capitalize leading-6 px-5 py-2 flex justify-center items-center cursor-pointer bg-white`}
               >
                 <img
                   className="h-10 w-auto mr-2"
@@ -207,7 +205,6 @@ const Navbar = () => {
                 />
                 GET STARTED
               </Link>
-
             </>
           )}
           {isLoggedIn && (
@@ -219,33 +216,58 @@ const Navbar = () => {
             // </button>
 
             <>
-              <div
-                  className="peer relative py-2"
-              >
+              <div className="peer relative py-2">
                 <div className="flex justify-center items-center">
-                  { profile && profile.profile_img_url &&
-                    <img className="rounded object-cover mr-2 h-10 w-10"  src={profile.profile_img_url} />
-                  }
-                  { !profile || !profile.profile_img_url &&
-                    <img width='34px' className="rounded mr-2" height='34px' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAMAAAANmfvwAAAAMFBMVEWzs7P///+tra2ysrK4uLjDw8Po6Ojv7+/Pz8/Ly8v39/fT09Pg4OC7u7v7+/vs7OwxTUw0AAAAnklEQVQ4jc2TyxKDIAxFuQmICJb//9vWqUhsE+nK6dlyJiEv5/4XJuJrgwqmcClRiACitx2qeBMshyY0Vt3h9TAwka7MXXkYSh4rP0RJXVkMBYJZLemkZFURbQGMvvAojywp6r/dUsVdsefYRpBs47Ut+4T0kplcaX+pnpj5893nCkEsyclY7MuCb2rfLLkoZ47KONykbPelM7i6+3kCAfsDzUAlbWUAAAAASUVORK5CYII=" />
-                  }
+                  {profile && profile.profile_img_url && (
+                    <img
+                      className="rounded object-cover mr-2 h-10 w-10"
+                      src={profile.profile_img_url}
+                    />
+                  )}
+                  {!profile ||
+                    (!profile.profile_img_url && (
+                      <img
+                        width="34px"
+                        className="rounded mr-2"
+                        height="34px"
+                        src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAMAAAANmfvwAAAAMFBMVEWzs7P///+tra2ysrK4uLjDw8Po6Ojv7+/Pz8/Ly8v39/fT09Pg4OC7u7v7+/vs7OwxTUw0AAAAnklEQVQ4jc2TyxKDIAxFuQmICJb//9vWqUhsE+nK6dlyJiEv5/4XJuJrgwqmcClRiACitx2qeBMshyY0Vt3h9TAwka7MXXkYSh4rP0RJXVkMBYJZLemkZFURbQGMvvAojywp6r/dUsVdsefYRpBs47Ut+4T0kplcaX+pnpj5893nCkEsyclY7MuCb2rfLLkoZ47KONykbPelM7i6+3kCAfsDzUAlbWUAAAAASUVORK5CYII="
+                      />
+                    ))}
                   <div>
-                    { profile &&
-                      <p className="text-white truncate max-w-48">@{ profile.username }</p>
-                    }
-                    <p className="text-white">{ balance.toFixed(2) } USD</p>
+                    {profile && (
+                      <p className="text-white truncate max-w-48">
+                        @{profile.username}
+                      </p>
+                    )}
+                    <p className="text-white">{balance.toFixed(2)} USD</p>
                   </div>
                 </div>
               </div>
 
-              <div className="hidden peer-hover:flex hover:flex
+              <div
+                className="hidden peer-hover:flex hover:flex
                 w-[200px] absolute top-[70px]
-                flex-col bg-white drop-shadow-lg">
-                    <Link className="px-5 py-3 hover:bg-gray-200 uppercase" href="/myprofile">My Profile</Link>
-                    <Link className="px-5 py-3 hover:bg-gray-200 uppercase" href="/finance">Finance</Link>
-                    <a className="px-5 py-3 hover:bg-gray-200 uppercase" onClick={() => handleLogout()}>Log out</a>
-                </div>
-
+                flex-col bg-white drop-shadow-lg"
+              >
+                <Link
+                  className="px-5 py-3 hover:bg-gray-200 uppercase"
+                  href="/myprofile"
+                >
+                  My Profile
+                </Link>
+                <Link
+                  className="px-5 py-3 hover:bg-gray-200 uppercase"
+                  href="/finance"
+                >
+                  Finance
+                </Link>
+                <a
+                  className="px-5 py-3 hover:bg-gray-200 uppercase"
+                  onClick={() => handleLogout()}
+                >
+                  Log out
+                </a>
+              </div>
             </>
           )}
         </div>
@@ -279,8 +301,7 @@ const Navbar = () => {
           <div className="mt-6 flow-root">
             <div className="-my-6 divide-y divide-gray-500/10">
               <div className="space-y-2 py-6">
-
-                {!isLoggedIn &&
+                {!isLoggedIn && (
                   <>
                     <Link
                       href="/about"
@@ -303,57 +324,66 @@ const Navbar = () => {
                       Blogs
                     </Link>
                   </>
-                }
+                )}
 
-                {isLoggedIn &&
+                {isLoggedIn && (
+                  <>
+                    <div className="flex justify-start items-center mb-6">
+                      {profile && profile.profile_img_url && (
+                        <img
+                          className="rounded object-cover mr-2 h-12 w-12"
+                          src={profile.profile_img_url}
+                        />
+                      )}
+                      {!profile ||
+                        (!profile.profile_img_url && (
+                          <img
+                            width="34px"
+                            className="rounded mr-2"
+                            height="34px"
+                            src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAMAAAANmfvwAAAAMFBMVEWzs7P///+tra2ysrK4uLjDw8Po6Ojv7+/Pz8/Ly8v39/fT09Pg4OC7u7v7+/vs7OwxTUw0AAAAnklEQVQ4jc2TyxKDIAxFuQmICJb//9vWqUhsE+nK6dlyJiEv5/4XJuJrgwqmcClRiACitx2qeBMshyY0Vt3h9TAwka7MXXkYSh4rP0RJXVkMBYJZLemkZFURbQGMvvAojywp6r/dUsVdsefYRpBs47Ut+4T0kplcaX+pnpj5893nCkEsyclY7MuCb2rfLLkoZ47KONykbPelM7i6+3kCAfsDzUAlbWUAAAAASUVORK5CYII="
+                          />
+                        ))}
+                      <div>
+                        {profile && (
+                          <p className="text-white truncate max-w-48">
+                            @{profile.username}
+                          </p>
+                        )}
+                        <p className="text-white">{balance.toFixed(2)} USD</p>
+                      </div>
+                    </div>
 
-                <>
-
-                <div className="flex justify-start items-center mb-6">
-                  { profile && profile.profile_img_url &&
-                    <img className="rounded object-cover mr-2 h-12 w-12"  src={profile.profile_img_url} />
-                  }
-                  { !profile || !profile.profile_img_url &&
-                    <img width='34px' className="rounded mr-2" height='34px' src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACIAAAAiCAMAAAANmfvwAAAAMFBMVEWzs7P///+tra2ysrK4uLjDw8Po6Ojv7+/Pz8/Ly8v39/fT09Pg4OC7u7v7+/vs7OwxTUw0AAAAnklEQVQ4jc2TyxKDIAxFuQmICJb//9vWqUhsE+nK6dlyJiEv5/4XJuJrgwqmcClRiACitx2qeBMshyY0Vt3h9TAwka7MXXkYSh4rP0RJXVkMBYJZLemkZFURbQGMvvAojywp6r/dUsVdsefYRpBs47Ut+4T0kplcaX+pnpj5893nCkEsyclY7MuCb2rfLLkoZ47KONykbPelM7i6+3kCAfsDzUAlbWUAAAAASUVORK5CYII=" />
-                  }
-                  <div>
-                    { profile &&
-                      <p className="text-white truncate max-w-48">@{ profile.username }</p>
-                    }
-                    <p className="text-white">{ balance.toFixed(2) } USD</p>
-                  </div>
-                </div>
-
-                <Link
-                  href="/myprofile"
-                  className={`-mx-3 block rounded-lg uppercase px-3 py-2 text-base font-bold leading-7 text-white cursor-pointer`}
-                >
-                  My Profile
-                </Link>
-
-                <Link
-                  href="/finance"
-                  className={`-mx-3 block rounded-lg uppercase px-3 py-2 text-base font-bold leading-7 text-white cursor-pointer`}
-                >
-                  Finance
-                </Link>
-
-                {navigation.map((item) => (
                     <Link
-                      key={item.name}
-                      href={item.href}
-                      onClick={() => closeMobileMenu()}
-                      className={`-mx-3 block rounded-lg uppercase px-3 py-2 text-base font-bold leading-7 cursor-pointer ${
-                        router.pathname === item.href
-                          ? "text-[#fd5b1c] border-b-2 border-[#fd5b1c]"
-                          : "text-white"
-                      }`}
+                      href="/myprofile"
+                      className={`-mx-3 block rounded-lg uppercase px-3 py-2 text-base font-bold leading-7 text-white cursor-pointer`}
                     >
-                      {item.name}
+                      My Profile
                     </Link>
-                ))}
-                </>
-              }
+
+                    <Link
+                      href="/finance"
+                      className={`-mx-3 block rounded-lg uppercase px-3 py-2 text-base font-bold leading-7 text-white cursor-pointer`}
+                    >
+                      Finance
+                    </Link>
+
+                    {navigation.map((item) => (
+                      <Link
+                        key={item.name}
+                        href={item.href}
+                        onClick={() => closeMobileMenu()}
+                        className={`-mx-3 block rounded-lg uppercase px-3 py-2 text-base font-bold leading-7 cursor-pointer ${
+                          router.pathname === item.href
+                            ? "text-[#fd5b1c] border-b-2 border-[#fd5b1c]"
+                            : "text-white"
+                        }`}
+                      >
+                        {item.name}
+                      </Link>
+                    ))}
+                  </>
+                )}
               </div>
               <div className="py-6">
                 {!isLoggedIn && (
