@@ -26,7 +26,7 @@ import { set } from "react-hook-form";
 const NewContract = ({
   currentUser,
   recipientUser,
-  conversationId,
+
   closePopup,
   openPopup,
   contractPopup,
@@ -37,7 +37,9 @@ const NewContract = ({
   useState(false);
   const authUserId = useSelector(selectAuthUser);
   const router = useRouter();
+  //authId is the id of the logged in user
   const authId = Cookies.get("userId");
+
   const [messageText, setMessageText] = useState("");
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
@@ -50,9 +52,9 @@ const NewContract = ({
   /*   React.useEffect(() => {
     messageRef.current = messages;
   }); */
-  if (userId === recipientUser) {
-    recipientUser = currentUser;
-  }
+  // if (userId === recipientUser) {
+  //   recipientUser = currentUser;
+  // }
 
   return (
     <>
@@ -86,9 +88,8 @@ const NewContract = ({
               >
                 <ContractForm
                   closePopup={closePopup}
-                  userId={recipientUser}
-                  providerId={authId}
-                  conversationId={conversationId}
+                  userId={currentUser}
+                  providerId={recipientUser}
                 />
               </div>
             </div>

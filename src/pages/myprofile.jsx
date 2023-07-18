@@ -4,6 +4,7 @@ import Image from "next/image";
 import StarRating from "@/components/starrating";
 import Link from "next/link";
 import axios from "axios";
+import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -18,12 +19,15 @@ import CloudinaryUploader from "@/components/profileimageupload";
 import GoopimUserAddress from "@/components/usersaddress";
 import ProfileCoverUploader from "@/components/profilecoveruploader";
 import useLocalStorage from "use-local-storage";
+import NewContract from "./newcontract";
+import { auth } from "@/auth/auth";
 
 function MyProfile() {
   //const { isAuthenticated, user } = useContext(AuthContext);
   const authStatus = useSelector(selectAuthState);
   const [profile, setProfile] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+
   const [profileImage, setProfileImage] = useState("");
   const [profileCoverImage, setProfileCoverImage] = useState("");
   const [myCompanies, setMyCompanies] = useState([]);
@@ -169,7 +173,7 @@ function MyProfile() {
   function handleRefreshClick() {
     router.reload();
   }
-  
+
   useEffect(() => {
     const fetchProfile = async () => {
       setLoading(true);
@@ -285,7 +289,6 @@ function MyProfile() {
 
   return (
     <div className="mx-auto p-0 mt-0 bg-[#f2f5f8]">
-
       {loading && (
         <div className="text-center">
           <div role="status">
@@ -318,7 +321,7 @@ function MyProfile() {
             description={profile.description}
             keyword={profile.keyword}
             portfolio={profile.portfolio}
-            name={profile.first_name + ' ' + profile.last_name}
+            name={profile.first_name + " " + profile.last_name}
             isFreelancer={profile.is_freelancer}
             isEmployer={profile.is_an_employer}
             isAdmin={profile.is_controller}
@@ -526,7 +529,6 @@ function MyProfile() {
                           </div>
 
                           <div className="flex items-center justify-between">
-                            
                             <button
                               className="inline-block rounded bg-secondary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]"
                               type="button"
@@ -541,7 +543,6 @@ function MyProfile() {
                             >
                               Save
                             </button>
-
                           </div>
                         </div>
                       </div>
@@ -560,11 +561,13 @@ function MyProfile() {
 
 export const NewProfilePage = (props) => {
   const router = useRouter();
+  const authId = Cookies.get("userId");
 
   const [messageText, setMessageText] = useState("");
   const [userId, setUserId] = useLocalStorage("userId", "");
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [contractPopup, setContractPopup] = useState(false);
 
   useEffect(() => {
     if (!!localStorage.getItem("token")) {
@@ -572,18 +575,22 @@ export const NewProfilePage = (props) => {
     }
     window.CometChat = require("@cometchat-pro/chat").CometChat;
   }, []);
-
+  const closePopup = () => {
+    setContractPopup(false);
+  };
+  const openPopup = () => {
+    setContractPopup(true);
+  };
 
   function formatDate(dateString) {
     const dateObject = new Date(dateString);
-  
+
     const year = dateObject.getFullYear();
     const month = dateObject.getMonth() + 1;
     const day = dateObject.getDate();
-  
-    return `${year}-${month}-${day}`;
-  } 
 
+    return `${year}-${month}-${day}`;
+  }
 
   const sendFirstMessage = (receiver_id) => {
     //emit conversation id and current-loggen user in and the other user id
@@ -609,8 +616,7 @@ export const NewProfilePage = (props) => {
       .then((response) => response.json())
       .then((data) => {
         if (!!data.error) {
-
-          console.log('data.error');
+          console.log("data.error");
           console.log(data.error);
           toast.error(data.error);
         } else {
@@ -651,12 +657,14 @@ export const NewProfilePage = (props) => {
     }
   };
 
-
   return (
     <div className="">
       <ToastContainer />
       <div className="relative block h-[500px]">
-        <img src={props.profileCoverImage} className="center w-full h-full object-cover" />
+        <img
+          src={props.profileCoverImage}
+          className="center w-full h-full object-cover"
+        />
       </div>
 
       <section className="relative py-16">
@@ -666,26 +674,30 @@ export const NewProfilePage = (props) => {
               <div className="flex flex-wrap justify-center">
                 <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                   <div className="relative">
-                    <img alt="..." src={props.profileImage} className="shadow-xl rounded-full h-[150px] align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px] min-w-[150px] object-cover" />
+                    <img
+                      alt="..."
+                      src={props.profileImage}
+                      className="shadow-xl rounded-full h-[150px] align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px] min-w-[150px] object-cover"
+                    />
                   </div>
                 </div>
                 <div className="w-full lg:w-4/12 px-0 md:px-4 lg:order-3 lg:text-right lg:self-center">
                   <div className="py-6 px-0 md:px-4 sm:mt-0 flex justify-between lg:justify-end align-middle">
-
-                    {
-                      props.isPublic ? 
+                    {props.isPublic && props.isFreelancer ? (
                       <>
-                        <button 
-                          className="text-white text-xs py-2 px-4 uppercase rounded bg-orange-500 active:bg-orange-600 hover:bg-orange-600 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1 " type="button"
+                        <button
+                          className="text-white text-xs py-2 px-4 uppercase rounded bg-orange-500 active:bg-orange-600 hover:bg-orange-600 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1 "
+                          type="button"
                           onClick={() => {
-                            sendFirstMessage(props.id);
+                            setContractPopup(true);
                           }}
                         >
                           Hire me
                         </button>
 
-                        <button 
-                          className="text-white text-xs py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1" type="button"
+                        <button
+                          className="text-white text-xs py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1"
+                          type="button"
                           onClick={() => {
                             handleChatButtonClick(props.public_id);
                           }}
@@ -693,17 +705,22 @@ export const NewProfilePage = (props) => {
                           Message
                         </button>
                       </>
-                      :
-                      <button 
-                        className="text-white text-xs py-2 px-4 uppercase rounded bg-orange-500 active:bg-orange-600 hover:bg-orange-600 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1 " type="button"
+                    ) : (
+                      ""
+                    )}
+                    {props.isPublic ? (
+                      ""
+                    ) : (
+                      <button
+                        className="text-white text-xs py-2 px-4 uppercase rounded bg-orange-500 active:bg-orange-600 hover:bg-orange-600 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1 "
+                        type="button"
                         onClick={() => {
                           props.editProfile();
                         }}
                       >
                         Edit
                       </button>
-                    }
-
+                    )}
                     {/* <button 
                       className="text-white text-xs py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1" type="button"
                       onClick={() => {
@@ -712,68 +729,84 @@ export const NewProfilePage = (props) => {
                     >
                       Chat
                     </button> */}
-
                   </div>
                 </div>
 
                 <div className="w-full lg:w-4/12 px-4 lg:order-1">
                   <div className="flex justify-center py-4 lg:pt-4 pt-8">
                     <div className="mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">{ props.rating }/{ props.number_of_reviews }</span><span className="text-sm text-blueGray-400">Reviews</span>
+                      <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
+                        {props.rating}/{props.number_of_reviews}
+                      </span>
+                      <span className="text-sm text-blueGray-400">Reviews</span>
                     </div>
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block tracking-wide text-blueGray-600">
                         {props.isFreelancer ? (
                           <>
                             {" "}
-                            <span className="px-1">{ props.hourly_rate }$</span>
+                            <span className="px-1">{props.hourly_rate}$</span>
                           </>
                         ) : (
                           "-"
                         )}
-                        </span><span className="text-sm text-blueGray-400">Rate</span>
+                      </span>
+                      <span className="text-sm text-blueGray-400">Rate</span>
                     </div>
                     <div className="lg:mr-4 p-3 text-center">
-                      <span className="text-xl font-bold block tracking-wide text-blueGray-600">@{ props.username }</span><span className="text-sm text-blueGray-400">Username</span>
+                      <span className="text-xl font-bold block tracking-wide text-blueGray-600">
+                        @{props.username}
+                      </span>
+                      <span className="text-sm text-blueGray-400">
+                        Username
+                      </span>
                     </div>
                   </div>
                 </div>
               </div>
-
 
               <div className="text-center mt-12">
                 <h3 className="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
                   {props.name}
                   {props.isFreelancer ? (
                     <>
-                      {' '}
-                      <sup className="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">Freelancer</sup>
+                      {" "}
+                      <sup className="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">
+                        Freelancer
+                      </sup>
                     </>
                   ) : props.isEmployer ? (
                     <>
-                      {' '}
-                      <sup className="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-indigo-400 border border-indigo-400">Employer</sup>
+                      {" "}
+                      <sup className="bg-indigo-100 text-indigo-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-indigo-400 border border-indigo-400">
+                        Employer
+                      </sup>
                     </>
                   ) : props.isAdmin ? (
                     <>
-                      {' '}
-                      <sup className="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">Administrator</sup>
+                      {" "}
+                      <sup className="bg-red-100 text-red-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">
+                        Administrator
+                      </sup>
                     </>
-                  ) : ''}
+                  ) : (
+                    ""
+                  )}
                 </h3>
 
                 <div className="flex mt-2 justify-center">
                   <div className="flex flex-col">
-                    { props.number_of_reviews == 0 ? 
-                      <span>No reviews yet</span>  :
+                    {props.number_of_reviews == 0 ? (
+                      <span>No reviews yet</span>
+                    ) : (
                       <>
-                        <span className="p-1">{ props.rating }</span>
+                        <span className="p-1">{props.rating}</span>
                         <StarRating rating={props.rating} />
                       </>
-                    }                    
+                    )}
                   </div>
                 </div>
-                
+
                 <div className="flex justify-center">
                   <Image src="/location-pin.svg" width={40} height={40} />
                   <span className="pt-2">
@@ -784,9 +817,8 @@ export const NewProfilePage = (props) => {
                   </Link> */}
                 </div>
                 <div className="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
-                  Joined: { formatDate(props.joined) }
+                  Joined: {formatDate(props.joined)}
                 </div>
-                
               </div>
               <div className="mt-10 py-10 border-t border-blueGray-200 text-center">
                 <h4 className="text-lg mt-5 font-semibold mb-2 ">About Me</h4>
@@ -802,7 +834,12 @@ export const NewProfilePage = (props) => {
                 <ul className="flex flex-wrap justify-center">
                   {props && props.keyword ? (
                     props.keyword.split(", ").map((skill, index) => (
-                      <span  key={index} className="bg-gray-100 text-gray-800 capitalize text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500">{!!skill ? skill : "Edit and update your profile"}</span>
+                      <span
+                        key={index}
+                        className="bg-gray-100 text-gray-800 capitalize text-sm font-medium mr-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-gray-400 border border-gray-500"
+                      >
+                        {!!skill ? skill : "Edit and update your profile"}
+                      </span>
                     ))
                   ) : (
                     <li className="px-2 py-1 rounded bg-blue-100 text-gray-600 mr-2 mb-2">
@@ -819,12 +856,17 @@ export const NewProfilePage = (props) => {
                     </p>
                   </div>
                 </div>
-                
               </div>
             </div>
           </div>
         </div>
-        
+        <NewContract
+          currentUser={authId}
+          recipientUser={props.id}
+          closePopup={closePopup}
+          openPopup={openPopup}
+          contractPopup={contractPopup}
+        />
       </section>
     </div>
   );
