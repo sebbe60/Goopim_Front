@@ -15,9 +15,20 @@ const ContractItem = (props) => {
 
   return (
     <>
-      <div className="flex flex-col text-center items-center my-2 p-1 ">
-        <p className="p-1 my-1">
-          Contract title {props.contract.contract_title}
+      <div className="flex flex-col text-center items-center my-2 p-1 border-2">
+        <p
+          className={` rounded w-26 p-1 my-1 ${
+            props.contract.contract_status == "ACCEPTED" ? "bg-green-200" : ""
+          }${
+            props.contract.contract_status == "CANCELLED" ? "bg-red-200" : ""
+          }${
+            props.contract.contract_status == "PENDING" ? "bg-yellow-200" : ""
+          }`}
+        >
+          <span>Contract status:</span>{" "}
+          <psan className="ml-2 text-lower">
+            {props.contract.contract_status}
+          </psan>
         </p>
         <div className="flex justify-center">
           {" "}
@@ -35,27 +46,19 @@ const ContractItem = (props) => {
           )}
         </div>
         {isEmployer && (
-          <p className="p-1 my-1"> {props.contract.freelancer_name}</p>
+          <p className="p-1 my-1 font-bold">
+            {" "}
+            {props.contract.freelancer_name}
+          </p>
         )}
         {isFreelancer && (
-          <p className="p-1 my-1"> {props.contract.employer_name}</p>
+          <p className="p-1 my-1 font-bold"> {props.contract.employer_name}</p>
         )}
 
-        <p
-          className={` rounded w-26 p-1 my-1 ${
-            props.contract.contract_status == "ACCEPTED" ? "bg-green-200" : ""
-          }${
-            props.contract.contract_status == "CANCELLED" ? "bg-red-200" : ""
-          }${
-            props.contract.contract_status == "PENDING" ? "bg-yellow-200" : ""
-          }`}
-        >
-          {props.contract.contract_status}
-        </p>
         {props.contract.contract_status == "PENDING" && isEmployer && (
           <div className="flex justify-center ">
             <button
-              className="p-2 bg-green-600 text-white mr-2 rounded w-60"
+              className="p-2 bg-green-600 text-white mr-2 rounded px-1  w-24  sm:mr-2 mb-1"
               onClick={() => {
                 props.rejectContract(props.contract.id);
               }}
@@ -63,7 +66,7 @@ const ContractItem = (props) => {
               Cancel
             </button>
             <button
-              className="bg-primary hover:bg-primary text-white font-bold py-2 px-4 rounded"
+              className="bg-primary hover:bg-primary text-white font-bold px-1 rounded w-24  sm:mr-2 mb-1"
               onClick={() => {
                 openPopup();
               }}
@@ -75,22 +78,28 @@ const ContractItem = (props) => {
         {props.contract.contract_status == "PENDING" && isFreelancer && (
           <div className="flex justify-center my-2">
             <button
-              className="p-2 bg-green-600 text-white mr-2 rounded w-60"
+              className="p-2 bg-green-600 text-white mr-2  px-1 rounded w-24  sm:mr-2 mb-1"
               onClick={() => props.acceptContract(props.contract.id)}
             >
               Accept
             </button>
             <button
-              className="p-2 bg-red-600 text-white rounded w-60"
+              className="p-2 bg-red-600 text-white  px-1 rounded w-24  sm:mr-2 mb-1"
               onClick={() => props.rejectContract(props.contract.id)}
             >
               Reject
             </button>
           </div>
         )}
-        <p className="p-1 my-1">
-          Contact details {props.contract.contract_details}
-        </p>
+        <div className="bg-gray-100 p-4 rounded mt-4">
+          {" "}
+          <p className="p-1 my-1 font-bold">
+            Contract title {props.contract.contract_title}
+          </p>
+          <p className="p-1 my-1">
+            Contact details {props.contract.contract_details}
+          </p>
+        </div>
       </div>
 
       <>
