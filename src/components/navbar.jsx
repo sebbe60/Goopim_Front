@@ -151,7 +151,7 @@ const Navbar = () => {
         >
           <div className="flex lg:flex-1">
             <Link href="/" className="-m-1.5 p-1.5 cursor-pointer">
-              <span className="sr-only">GOOPIM</span>
+              <span className="sr-only">GOOPI</span>
               <img
                 className="h-8 w-auto"
                 src={isScrolled ? "/logo-light.png" : "/logo-light.png"}
