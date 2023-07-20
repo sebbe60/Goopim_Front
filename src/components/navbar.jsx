@@ -14,8 +14,8 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_URL } from "@/utils";
 import axios from "axios";
-import Login from "@/components/auth/login";
-import Register from "@/components/auth/register";
+import Login from "@/auth/login";
+import Register from "@/auth/register";
 
 const navigation = [
   { name: "Projects", href: "/myprojects" },
