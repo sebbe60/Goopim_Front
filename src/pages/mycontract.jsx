@@ -161,11 +161,11 @@ const MyContracts = () => {
           ))}
         </div>
         <div>
-          <div>
+          <div className=" sm:flex flex-wrap">
             {filteredContract.map((contract) => (
               <div
                 key={contract.id}
-                className="bg-white p-2 shadow-lg m-2 sm:w-100"
+                className="bg-white p-2 shadow-lg m-2 sm:w-1/4 sm:p-2"
               >
                 <ContractItem
                   contract={contract}
