@@ -1,6 +1,5 @@
 import { useState, useEffect, use } from "react";
 import axios from "axios";
-
 import useLocalStorage from "use-local-storage";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
@@ -8,292 +7,12 @@ import "react-toastify/dist/ReactToastify.css";
 import { BACKEND_URL } from "@/utils";
 import Link from "next/link";
 import Image from "next/image";
-import dynamic from "next/dynamic";
 import ReactCountryFlag from "react-country-flag";
-import StarIcon from "@heroicons/react/20/solid";
 import Countries from "@/commons/countries";
-import AutoExpandTextarea from "./autotextarea";
-/* const CometChat = dynamic(() => import("@cometchat-pro/chat"), {
-  ssr: false, // Disable server-side rendering for CometChat import
-});
- */
-
-import Cookies from "js-cookie";
+import Login from "@/components/auth/login";
+import Register from "@/components/auth/register";
 import { useDispatch } from "react-redux";
-
-import { setAuthUser } from "@/store/slices/authSlice";
-import { setAuthState } from "@/store/slices/authSlice";
-import { setReceiverId } from "@/store/slices/authSlice";
 import NewContract from "@/pages/newcontract";
-const Login = (props) => {
-  const dispatch = useDispatch();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    setLoading(true);
-    setError("");
-
-    try {
-      const response = await axios.post(`${BACKEND_URL}/login`, {
-        email,
-        password,
-      });
-      const userId = await response.data.userId;
-      const token = await response.data.token;
-      const freelancer = await response.data.freelancer;
-      const employer = await response.data.employer;
-      const mincom = await response.data.mincom;
-      const token2 = await response.data.token2;
-      Cookies.set("userId", userId);
-      dispatch(setAuthState(true));
-      dispatch(setAuthUser(userId));
-      localStorage.setItem("token", token);
-      localStorage.setItem("userId", userId);
-      localStorage.setItem("freelancer", freelancer);
-      localStorage.setItem("employer", employer);
-      localStorage.setItem("mincom", mincom);
-      localStorage.setItem("token2", token2);
-      props.setIsLoggedIn(true);
-
-      props.handleCloseModal();
-    } catch (error) {
-      console.error(error);
-      setError(error.response?.data?.message || "Something went wrong.");
-    }
-
-    setLoading(false);
-  };
-
-  return (
-    <div className="flex flex-col justify-center items-center">
-      <h1 className="text-3xl font-bold mb-4">Login</h1>
-      <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-        <div className="flex flex-col">
-          <label htmlFor="email" className="mb-2 font-medium">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-            className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
-            required
-          />
-        </div>
-        <div className="flex flex-col">
-          <label htmlFor="password" className="mb-2 font-medium">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-            className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
-            required
-          />
-        </div>
-        {error && <p className="text-red-500">{error}</p>}
-        <button
-          type="submit"
-          className={`py-2 px-4 bg-blue-500 text-white font-medium rounded-md focus:outline-none ${
-            loading ? "opacity-50 cursor-not-allowed" : ""
-          }`}
-          disabled={loading}
-        >
-          {loading ? "Loading..." : "Login"}
-        </button>
-        <button
-          type="button"
-          onClick={() => {
-            props.gotoRegisterView();
-          }}
-        >
-          <span className="text-blue-300">Not registered?</span>Register
-        </button>
-      </form>
-    </div>
-  );
-};
-
-const Register = (props) => {
-  const router = useRouter();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    first_name: "",
-    last_name: "",
-    is_provider: false,
-    is_user: false,
-  });
-
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleCheckboxChange = (e) => {
-    const checkBoxName = e.target.name;
-    const value = e.target.checked;
-    let is_user = formData.is_user;
-    let is_provider = formData.is_provider;
-
-    if (checkBoxName === "is_provider") {
-      is_user = false;
-      is_provider = true;
-    } else if (checkBoxName === "is_user") {
-      is_provider = false;
-      is_user = true;
-    }
-
-    setFormData({
-      ...formData,
-      is_provider: is_provider,
-      is_user: is_user,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const res = await axios.post(`${BACKEND_URL}/register`, formData);
-      toast.success(res.data.message);
-      props.setLoginView(true);
-    } catch (err) {
-      toast.error(err.response.data.message);
-    }
-  };
-
-  return (
-    <>
-      <div className="bg-gray-100 flex justify-center items-center ">
-        <ToastContainer />
-        <form
-          onSubmit={handleSubmit}
-          className="w-full  p-6 bg-white rounded-md shadow-lg"
-        >
-          <h2 className="text-2xl font-bold mb-4">Register</h2>
-          <div className="mb-4">
-            <label
-              htmlFor="email"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Email
-            </label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="password"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="first_name"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              First Name
-            </label>
-            <input
-              type="text"
-              name="first_name"
-              value={formData.first_name}
-              onChange={handleChange}
-              className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="last_name"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Last Name
-            </label>
-            <input
-              type="text"
-              name="last_name"
-              value={formData.last_name}
-              onChange={handleChange}
-              className="border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            />
-          </div>
-          <div className="mb-4">
-            <label
-              htmlFor="is_provider"
-              className="block text-gray-700 font-bold mb-2"
-            >
-              Register as a freelancer?
-            </label>
-            <input
-              type="checkbox"
-              name="is_provider"
-              checked={formData.is_provider}
-              onChange={handleCheckboxChange}
-              className="mr-2 leading-tight"
-            />
-            <span className="text-sm">I am a freelancer</span>
-
-            <label className="block text-gray-700 text-sm font-bold mb-2 mt-4">
-              <input
-                type="checkbox"
-                name="is_user"
-                checked={formData.is_user}
-                onChange={handleCheckboxChange}
-                className="mr-2 leading-tight"
-              />
-              <span className="text-sm">I want to hire a freelancer</span>
-            </label>
-          </div>
-          <div>
-            {" "}
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline mt-8"
-            >
-              Register
-            </button>
-          </div>
-          <button
-            type="button"
-            onClick={() => {
-              props.gotoLoginView();
-            }}
-          >
-            <span className="text-blue-400">Already registed?</span>Login
-          </button>
-        </form>
-      </div>
-    </>
-  );
-};
 
 function HomepageProviderSearch() {
   const [projectDescription, setProjectDescription] = useState("");
@@ -433,6 +152,10 @@ function HomepageProviderSearch() {
     setProviderId(provider_id);
     setContractPopup(true);
   };
+  const handleChildClick = (e) => {
+    e.stopPropagation();
+    console.log("child");
+  };
 
   return (
     <div class="relative pb-4">
@@ -467,7 +190,7 @@ function HomepageProviderSearch() {
                   />
 
                   <input
-                    className=" h-12 appearance-none block rounded-2xl bg-gray-200 text-gray-700 border border-gray-200 rounded py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    className=" h-12 appearance-none block rounded-2xl bg-gray-200 text-gray-700 border border-gray-200 py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="budget"
                     type="hidden"
                     placeholder="Enter budget"
@@ -480,7 +203,7 @@ function HomepageProviderSearch() {
                   {!resultIsAvailable && (
                     <button
                       type="submit"
-                      class="absolute inline-flex items-center h-12 px-4 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full outline-none right-3 top-3 bg-[#42b5d3] sm:px-6 sm:text-base sm:font-medium hover:bg-[#42b5d3] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:[#42b5d3]"
+                      class="absolute inline-flex items-center h-12 px-4 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full outline-none right-3 top-3 bg-[#2448c6] sm:px-6 sm:text-base sm:font-medium hover:bg-[#2448c6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:[#42b5d3]"
                     >
                       <svg
                         class="-ml-0.5 sm:-ml-1 mr-2 w-4 h-4 sm:h-5 sm:w-5"
@@ -502,7 +225,7 @@ function HomepageProviderSearch() {
                   {resultIsAvailable && (
                     <button
                       type="button"
-                      class="absolute inline-flex items-center h-12 px-4 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full outline-none right-3 top-3 bg-[#42b5d3] sm:px-6 sm:text-base sm:font-medium hover:bg-[#42b5d3] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:[#42b5d3]"
+                      class="absolute inline-flex items-center h-12 px-4 py-2 text-sm text-white transition duration-150 ease-in-out rounded-full outline-none right-3 top-3 bg-[#2448c6] sm:px-6 sm:text-base sm:font-medium hover:bg-[#2448c6] focus:outline-none focus:ring-2 focus:ring-offset-2 focus:[#42b5d3]"
                       onClick={() => toggleResultIsAvailable()}
                     >
                       <svg
@@ -578,9 +301,9 @@ function HomepageProviderSearch() {
                               >
                                 @{provider.username}
                               </Link>
-                              <span className="text-gray-500 text-sm ml-2">
+                              {/* <span className="text-gray-500 text-sm ml-2">
                                 ({provider.rating})
-                              </span>
+                              </span> */}
                               <span className="text-gray-500 text-sm ml-2">
                                 {provider.hourly_rate} USD / hour
                               </span>
@@ -598,17 +321,26 @@ function HomepageProviderSearch() {
                                   />
                                 </span>
                               ) : (
-                                ""
+                                <span
+                                  role="img"
+                                  aria-label="Country Flag"
+                                  className="ml-2"
+                                >
+                                  <ReactCountryFlag
+                                    countryCode={getCountryValue("Sweden")}
+                                    svg
+                                  />
+                                </span>
                               )}
                               <span className="text-sm ml-2 py-1">
                                 {provider.city}
                               </span>
                             </h3>
                             <p className="text-gray-500">{provider.reason}</p>
-                            <p className="text-black py-1">
+                            {/*  <p className="text-black py-1">
                               {provider.keywords}
-                            </p>
-                            <div className="flex flex-col sm:flex-row items-center py-1">
+                            </p> */}
+                            {/*       <div className="flex flex-col sm:flex-row items-center py-1">
                               {provider.companies_worked_with.length > 0 ? (
                                 <span className="mx-1">Worked with:</span>
                               ) : (
@@ -631,7 +363,7 @@ function HomepageProviderSearch() {
                                     </div>
                                   )
                               )}
-                            </div>
+                            </div> */}
                           </div>
 
                           <div className="ml-3">
@@ -642,7 +374,7 @@ function HomepageProviderSearch() {
                                 onClick={() => {
                                   handleChatButtonClick(provider.chatkey);
                                 }}
-                                className="bg-primary hover:bg-primary text-white font-bold py-1 px-1  m-1 rounded-md w-24 "
+                                className="bg-[#2448c6] hover:bg-[#4865cc] text-white font-bold py-1 px-1  m-1 rounded-md w-24 "
                               >
                                 Message
                               </button>
@@ -651,7 +383,7 @@ function HomepageProviderSearch() {
                                 onClick={() => {
                                   openPopup(provider.id);
                                 }}
-                                className="bg-secondary hover:bg-primary text-white font-bold py-1 px-1  m-1 rounded-md w-24"
+                                className="bg-[#038428] hover:bg-[#2b9f4ce1] text-white font-bold py-1 px-1  m-1 rounded-md w-24"
                               >
                                 Hire me
                               </button>
@@ -667,27 +399,63 @@ function HomepageProviderSearch() {
               )}
 
               {showModal && (
-                <div className="fixed inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center mt-12">
-                  <div className="bg-white rounded-lg p-2 mx-4 sm:mx-auto w-full sm:w-96  overflow-y-auto max-h-screen mt-16 mb-16">
-                    <div className="flex justify-end">
+                <div
+                  className="fixed inset-0 bg-gray-800 bg-opacity-75 flex items-center justify-center z-50 rounded-lg"
+                  onClick={handleCloseModal}
+                >
+                  <section
+                    className="h-[500px] max-h-[500px] w-[900px] relative bg-white rounded-lg"
+                    onClick={handleChildClick}
+                  >
+                    <div className="flex justify-end absolute right-0 top-0">
                       <button
+                        className="bg-transparent border-none p-0 mt-3 me-3"
                         onClick={handleCloseModal}
-                        className="bg-primary mt-16 px-2 py-1 text-white rounded-md hover:text-gray-700 "
                       >
-                        X
+                        <svg
+                          className="w-6 h-6"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M6 18L18 6M6 6l12 12"
+                          ></path>
+                        </svg>
                       </button>
                     </div>
+                    <div className="h-full">
+                      {/* <!-- Left column container with background--> */}
+                      <div className="g-0 flex h-full flex-wrap items-center justify-center lg:justify-between">
+                        <div className="w-6/12 xl:w-6/12 hidden md:block">
+                          <img
+                            src="/draw2.webp"
+                            className="w-full"
+                            alt="Sample image"
+                          />
+                        </div>
 
-                    {registerView ? (
-                      <Login
-                        setIsLoggedIn={setIsLoggedIn}
-                        gotoRegisterView={handleRegisterViewChange}
-                        handleCloseModal={handleCloseModal}
-                      />
-                    ) : (
-                      <Register gotoLoginView={handleRegisterViewChange} />
-                    )}
-                  </div>
+                        {/* <!-- Right column container --> */}
+                        <div className="mb-12 md:mb-0 md:w-6/12 lg:w-6/12 xl:w-6/12">
+                          {registerView ? (
+                            <Login
+                              setIsLoggedIn={setIsLoggedIn}
+                              gotoRegisterView={handleRegisterViewChange}
+                              handleCloseModal={handleCloseModal}
+                            />
+                          ) : (
+                            <Register
+                              gotoLoginView={handleRegisterViewChange}
+                            />
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </section>
                 </div>
               )}
             </div>
