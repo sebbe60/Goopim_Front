@@ -9,10 +9,11 @@ import Link from "next/link";
 import Image from "next/image";
 import ReactCountryFlag from "react-country-flag";
 import Countries from "@/commons/countries";
-import Login from "@/components/auth/login";
-import Register from "@/components/auth/register";
+
 import { useDispatch } from "react-redux";
 import NewContract from "@/pages/newcontract";
+import Login from "@/auth/login";
+import Register from "@/auth/register";
 
 function HomepageProviderSearch() {
   const [projectDescription, setProjectDescription] = useState("");
