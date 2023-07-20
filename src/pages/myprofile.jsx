@@ -15,6 +15,8 @@ import { useSelector } from "react-redux";
 import Select from "react-select";
 import { selectAuthUser, selectAuthState } from "../store/slices/authSlice";
 import ImageUploader from "@/components/imageuloader";
+import ReactCountryFlag from "react-country-flag";
+import Countries from "@/commons/countries";
 import CloudinaryUploader from "@/components/profileimageupload";
 import GoopimUserAddress from "@/components/usersaddress";
 import ProfileCoverUploader from "@/components/profilecoveruploader";
@@ -374,15 +376,15 @@ function MyProfile() {
                           <div className="mb-16 relative">
                             <div className="w-full border-2 border-dashed bg-secondary relative flex justify-center">
                               <img
-                                src={formData.profile_cover_url}
+                                src="/home/bg.jpg"
                                 className="center h-60 w-full"
                               />
-                              <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                              <div className="hidden absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
                                 <ProfileCoverUploader
                                   setFormData={setFormData}
                                 />
                               </div>
-                              <div className="absolute rounded-full bottom-0 left-1/4 transform -translate-x-1/2">
+                              <div className="absolute rounded-full bottom-0 left-1/2 transform -translate-x-1/2">
                                 <div className="rounded-full bg-white border-4 border-2 border-white -mb-16 z-20">
                                   <img
                                     src={formData.profile_img_url}
@@ -481,7 +483,7 @@ function MyProfile() {
                               onChange={handleInputChange}
                             />
                           </div>
-                          <div className="mt-5">
+                          {/*          <div className="mt-5">
                             <label htmlFor="description" className="font-bold">
                               Portfolio description:
                             </label>
@@ -496,7 +498,7 @@ function MyProfile() {
                             >
                               {" "}
                             </textarea>
-                          </div>
+                          </div> */}
                           <div className="mt-5">
                             <Select
                               options={formOptions}
@@ -591,7 +593,10 @@ export const NewProfilePage = (props) => {
 
     return `${year}-${month}-${day}`;
   }
-
+  function getCountryValue(countryText) {
+    const country = Countries.find((c) => c.text === countryText);
+    return country ? country.value : "";
+  }
   const sendFirstMessage = (receiver_id) => {
     //emit conversation id and current-loggen user in and the other user id
     //then run a check before joining the conversation room
@@ -661,10 +666,8 @@ export const NewProfilePage = (props) => {
     <div className="">
       <ToastContainer />
       <div className="relative block h-[500px]">
-        <img
-          src={props.profileCoverImage}
-          className="center w-full h-full object-cover"
-        />
+        <img className="center w-full h-full object-cover" src="/home/bg.jpg" />
+        {/* src={props.profileCoverImage} */}
       </div>
 
       <section className="relative py-16">
@@ -674,11 +677,19 @@ export const NewProfilePage = (props) => {
               <div className="flex flex-wrap justify-center">
                 <div className="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                   <div className="relative">
-                    <img
-                      alt="..."
-                      src={props.profileImage}
-                      className="shadow-xl rounded-full h-[150px] align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px] min-w-[150px] object-cover"
-                    />
+                    {props.profileImage == null ? (
+                      <img
+                        alt="..."
+                        src="/placeholder_avatar.png"
+                        className="shadow-xl rounded-full h-[150px] align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px] min-w-[150px] object-cover"
+                      />
+                    ) : (
+                      <img
+                        alt="..."
+                        src={props.profileImage}
+                        className="shadow-xl rounded-full h-[150px] align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-[150px] min-w-[150px] object-cover"
+                      />
+                    )}
                   </div>
                 </div>
                 <div className="w-full lg:w-4/12 px-0 md:px-4 lg:order-3 lg:text-right lg:self-center">
@@ -686,7 +697,7 @@ export const NewProfilePage = (props) => {
                     {props.isPublic && props.isFreelancer ? (
                       <>
                         <button
-                          className="text-white text-xs py-2 px-4 uppercase rounded bg-orange-500 active:bg-orange-600 hover:bg-orange-600 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1 "
+                          className="bg-[#038428] hover:bg-[#2b9f4ce1] text-white font-bold py-1 px-1  sm:mr-2 mb-1  rounded-md w-24"
                           type="button"
                           onClick={() => {
                             setContractPopup(true);
@@ -696,7 +707,7 @@ export const NewProfilePage = (props) => {
                         </button>
 
                         <button
-                          className="text-white text-xs py-2 px-4 uppercase rounded bg-gray-700 hover:bg-gray-800 shadow hover:shadow-lg font-medium transition transform hover:-translate-y-0.5 sm:mr-2 mb-1"
+                          className="bg-[#2448c6] hover:bg-[#4865cc] text-white font-bold py-1 px-1 rounded-md w-24  sm:mr-2 mb-1"
                           type="button"
                           onClick={() => {
                             handleChatButtonClick(props.public_id);
@@ -734,12 +745,12 @@ export const NewProfilePage = (props) => {
 
                 <div className="w-full lg:w-4/12 px-4 lg:order-1">
                   <div className="flex justify-center py-4 lg:pt-4 pt-8">
-                    <div className="mr-4 p-3 text-center">
+                    {/*      <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block uppercase tracking-wide text-blueGray-600">
                         {props.rating}/{props.number_of_reviews}
                       </span>
                       <span className="text-sm text-blueGray-400">Reviews</span>
-                    </div>
+                    </div> */}
                     <div className="mr-4 p-3 text-center">
                       <span className="text-xl font-bold block tracking-wide text-blueGray-600">
                         {props.isFreelancer ? (
@@ -794,7 +805,7 @@ export const NewProfilePage = (props) => {
                   )}
                 </h3>
 
-                <div className="flex mt-2 justify-center">
+                {/*          <div className="flex mt-2 justify-center">
                   <div className="flex flex-col">
                     {props.number_of_reviews == 0 ? (
                       <span>No reviews yet</span>
@@ -805,13 +816,37 @@ export const NewProfilePage = (props) => {
                       </>
                     )}
                   </div>
-                </div>
+                </div> */}
 
                 <div className="flex justify-center">
-                  <Image src="/location-pin.svg" width={40} height={40} />
-                  <span className="pt-2">
-                    {props.city}, {props.country}
-                  </span>
+                  {/*  <Image src="/location-pin.svg" width={40} height={40} /> */}
+
+                  {props.country != "" && props.country != null ? (
+                    <span
+                      role="img"
+                      aria-label="Country Flag"
+                      className="ml-2 py-2"
+                    >
+                      <ReactCountryFlag
+                        countryCode={getCountryValue(props.country)}
+                        svg
+                      />
+                      &nbsp;&nbsp;
+                    </span>
+                  ) : (
+                    <span
+                      role="img"
+                      aria-label="Country Flag"
+                      className="ml-2 py-2"
+                    >
+                      <ReactCountryFlag
+                        countryCode={getCountryValue("Sweden")}
+                        svg
+                      />
+                      &nbsp;&nbsp;
+                    </span>
+                  )}
+                  <span className="pt-2">{props.city}</span>
                   {/* <Link href={`localhost:3000/u/${props.username}`} className="p-2">
                     @{props.username}
                   </Link> */}
@@ -848,14 +883,14 @@ export const NewProfilePage = (props) => {
                   )}
                 </ul>
 
-                <h4 className="text-lg mt-10 font-semibold mb-2 ">Portfolio</h4>
+                {/*      <h4 className="text-lg mt-10 font-semibold mb-2 ">Portfolio</h4>
                 <div className="flex flex-wrap justify-center">
                   <div className="w-full lg:w-9/12 px-4">
                     <p className="mb-4 text-lg leading-relaxed text-blueGray-700">
                       {props.portfolio}
                     </p>
                   </div>
-                </div>
+                </div> */}
               </div>
             </div>
           </div>
