@@ -498,7 +498,7 @@ function MyProfile() {
                             >
                               {" "}
                             </textarea>
-                          </div> */}
+                          </div> 
                           <div className="mt-5">
                             <Select
                               options={formOptions}
@@ -518,7 +518,7 @@ function MyProfile() {
                               name="company2"
                               className="mb-4"
                             />
-                          </div>
+                          </div>*/}
                           <div className="mb-4">
                             <input
                               className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
@@ -818,7 +818,7 @@ export const NewProfilePage = (props) => {
                   </div>
                 </div> */}
 
-                <div className="flex justify-center">
+                <div className="flex justify-center align-middle">
                   {/*  <Image src="/location-pin.svg" width={40} height={40} /> */}
 
                   {props.country != "" && props.country != null ? (
@@ -846,7 +846,7 @@ export const NewProfilePage = (props) => {
                       &nbsp;&nbsp;
                     </span>
                   )}
-                  <span className="pt-2">{props.city}</span>
+                  <span className="py-2">{props.city}</span>
                   {/* <Link href={`localhost:3000/u/${props.username}`} className="p-2">
                     @{props.username}
                   </Link> */}
