@@ -15,6 +15,69 @@ import NewContract from "@/pages/newcontract";
 import Login from "@/auth/login";
 import Register from "@/auth/register";
 
+const TypewriterSearchBox = (props) => {
+  const searchQueries = [
+    "get freelancer job now.",
+    "build an ecommerce website for me.",
+    "integrate stripe in my react project.",
+  ];
+  const [displayText, setDisplayText] = useState("");
+  const [currentQueryIndex, setCurrentQueryIndex] = useState(0);
+  const currentQuery = searchQueries[currentQueryIndex];
+  let interval;
+  useEffect(() => {
+    let currentIndex = 0;
+
+    const updateSearchBox = () => {
+      if (currentIndex === currentQuery.length) {
+        // If the current line is completed, clear the search box
+        clearInterval(interval);
+        setTimeout(() => {
+          setDisplayText("");
+          currentIndex = 0;
+          setCurrentQueryIndex(
+            (prevIndex) => (prevIndex + 1) % searchQueries.length
+          ); // Move to the next line
+          interval = setInterval(updateSearchBox, 100); // Start typing the next line
+        }, 1000); // Wait for 1 second before starting the next line
+      } else {
+        // Get the characters from the current line and join them into a string
+        setDisplayText(currentQuery.slice(0, currentIndex + 1));
+        currentIndex++; // Move to the next character for the next iteration
+      }
+    };
+
+    // Start the typewriter effect when the component mounts
+    interval = setInterval(updateSearchBox, 100); // 100 milliseconds in this example
+
+    // Clean up the interval when the component unmounts
+    return () => clearInterval(interval);
+  }, [currentQuery]);
+
+  useEffect(() => {
+    // Stop the typewriter effect after 60 seconds
+    const timeout = setTimeout(() => {
+      clearInterval(interval);
+    }, 60000); // 60,000 milliseconds = 60 seconds
+
+    // Clean up the timeout when the component unmounts
+    return () => {
+      clearTimeout(timeout); // Clear the timeout to avoid memory leaks
+    };
+  }, []);
+  return (
+    <input
+      placeholder={displayText ? displayText : "Search..."}
+      class="search-box rounded-full w-full h-[4.5rem] bg-transparent py-0 pl-8 pr-32 outline-none border-2 border-gray-100 shadow-md hover:outline-none focus:ring-cool-indigo-200 focus:border-cool-indigo-200"
+      type="text"
+      value={props.projectDescription}
+      onChange={props.handleTextareaChange}
+      readOnly={props.resultIsAvailable ? true : false}
+      required={true}
+    />
+  );
+};
+
 function HomepageProviderSearch() {
   const [projectDescription, setProjectDescription] = useState("");
   const [budget, setBudget] = useState(50);
@@ -180,16 +243,11 @@ function HomepageProviderSearch() {
             <div class="relative max-w-3xl px-4 mx-auto mt-10 sm:px-6">
               <form onSubmit={handleSubmit}>
                 <div class="relative w-full max-w-xl mx-auto bg-white rounded-full h-[4.5rem] lg:max-w-none">
-                  <input
-                    placeholder="e.g. Graphic Design"
-                    class="rounded-full w-full h-[4.5rem] bg-transparent py-0 pl-8 pr-32 outline-none border-2 border-gray-100 shadow-md hover:outline-none focus:ring-cool-indigo-200 focus:border-cool-indigo-200"
-                    type="text"
-                    value={projectDescription}
-                    onChange={handleTextareaChange}
-                    readOnly={resultIsAvailable ? true : false}
-                    required={true}
+                  <TypewriterSearchBox
+                    resultIsAvailable={resultIsAvailable}
+                    projectDescription={projectDescription}
+                    handleTextareaChange={handleTextareaChange}
                   />
-
                   <input
                     className=" h-12 appearance-none block rounded-2xl bg-gray-200 text-gray-700 border border-gray-200 py-2 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="budget"
