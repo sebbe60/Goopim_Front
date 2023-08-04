@@ -71,7 +71,7 @@ const FinanceDashboard = () => {
       </div>
       <div class="flex flex-col sm:flex-row justify-center">
         <Link
-          href="/deposit"
+          href="/p/Payment"
           class="  bg-green-500 hover:bg-green-600  text-white py-2 px-4 rounded-lg mb-2 sm:mb-0 sm:mr-2 w-full sm:w-auto"
         >
           Deposit fund to your account
