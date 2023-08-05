@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-
+import { BACKEND_URL } from "@/utils";
 const SearchLogsComponent = () => {
   const [searchLogs, setSearchLogs] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -12,7 +12,7 @@ const SearchLogsComponent = () => {
 
   const fetchData = (page) => {
     axios
-      .get(`/searchlogs?page=${page}`)
+      .get(`${BACKEND_URL}/searchlogs?page=${page}`)
       .then((response) => {
         setSearchLogs(response.data.data);
         setTotalPages(response.data.total_pages);
