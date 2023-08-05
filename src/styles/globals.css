@@ -28,7 +28,10 @@ body {
 .upload-icon {
   background-color: rgba(15, 20, 25, 0.75);
 }
-
+.search-box::placeholder {
+  color: hsl(233, 75%, 5%); /* Change this to your desired color */
+  font-size: 20px;
+}
 .blur-vignette {
   --radius: 60px;
   --inset: 24px;

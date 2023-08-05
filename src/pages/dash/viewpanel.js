@@ -7,6 +7,7 @@ import PaymentAccount from "./paymentaccount";
 import Milestones from "./milestone";
 import UserCreatedMilestones from "./usercreatedmilestones";
 import Dashboard from "./dashboard";
+import SearchLogsComponent from "./seachlog";
 const ViewPanel = ({ selectedItem }) => {
   return (
     <div className="w-4/5">
@@ -39,6 +40,11 @@ const ViewPanel = ({ selectedItem }) => {
       {selectedItem.name === "UserCreatedMilestones" ? (
         <div>
           <UserCreatedMilestones />
+        </div>
+      ) : null}
+      {selectedItem.name === "SearchLogComponent" ? (
+        <div>
+          <SearchLogsComponent />
         </div>
       ) : null}
     </div>
