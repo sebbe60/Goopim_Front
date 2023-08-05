@@ -126,6 +126,7 @@ const items = [
   { name: "Paymentaccount", icon: paymentaccounticon },
   { name: "Milestones", icon: milestoneicon },
   { name: "UserCreatedMilestones", icon: usercreatedmilestoneicon },
+  { name: "SearchLogComponent", icon: usercreatedmilestoneicon },
 ];
 
 const IndexPage = () => {
