@@ -61,7 +61,7 @@ const ContractForm = (props) => {
         </div>
         <div className="mb-4">
           <label htmlFor="contract_details" className="block font-medium mb-2">
-            Title
+            Titel
           </label>
           <input
             id="contract_title"
@@ -74,7 +74,7 @@ const ContractForm = (props) => {
         </div>
         <div className="mb-4">
           <label htmlFor="contract_details" className="block font-medium mb-2">
-            Contract Details
+            Detaljer
           </label>
           <textarea
             id="contract_details"
@@ -87,7 +87,7 @@ const ContractForm = (props) => {
         </div>
         <div className="mb-4">
           <label htmlFor="contract_amount" className="block font-medium mb-2">
-            Contract Amount
+            Mängd
           </label>
           <input
             type="text"
@@ -104,13 +104,13 @@ const ContractForm = (props) => {
             onClick={handleClick}
             className="w-40 bg-gray-500 mr-4 text-white py-2 px-4 rounded  focus:outline-none focus:bg-indigo-400"
           >
-            Close
+            Stäng
           </button>
           <button
             type="submit"
             className="w-40 bg-primary text-white py-2 px-4 rounded hover:bg-indigo-400 focus:outline-none focus:bg-indigo-400"
           >
-            Send contract
+            Skicka kontrakt
           </button>
         </div>
       </form>
