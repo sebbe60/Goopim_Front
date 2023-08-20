@@ -151,11 +151,14 @@ function HomepageProviderSearch() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.post(`${BACKEND_URL}/api/providers`, {
-        project_description: projectDescription,
-        budget: budget,
-      });
-      setProviders(response.data.topproviders);
+      const response = await axios.post(
+        `${BACKEND_URL}/find_recommended_providers`,
+        {
+          project_description: projectDescription,
+          budget: budget,
+        }
+      );
+      setProviders(response.data.recommended_providers);
       toast.success("Done!");
       setResultIsAvailable(true);
       setLoading(false);
@@ -345,28 +348,28 @@ function HomepageProviderSearch() {
                           <div className="flex-shrink-0">
                             <img
                               className="h-12 w-12 bg-blue-100 rounded-full"
-                              src={provider.profile_img_url}
-                              alt={provider.name}
+                              src={provider.metadata.profile_picture}
+                              alt={provider.metadata.name}
                             />
                           </div>
                           <div className="ml-3 py-1">
                             <h3 className="text-lg font-medium text-gray-900">
-                              {provider.name}
+                              {provider.metadata.name}
                               <Link
-                                href={`${provider.profile_url}`}
+                                href={`${BACKEND_URL}/u/${provider.metadata.username}`}
                                 className="mx-1"
                                 target="_blank"
                                 rel="noopener noreferrer"
                               >
-                                @{provider.username}
+                                @{provider.metadata.username}
                               </Link>
                               {/* <span className="text-gray-500 text-sm ml-2">
                                 ({provider.rating})
                               </span> */}
                               <span className="text-gray-500 text-sm ml-2">
-                                {provider.hourly_rate} USD / hour
+                                {provider.metadata.hourly_rate} USD / hour
                               </span>
-                              {provider.country != "" ? (
+                              {provider.metadata.country != "" ? (
                                 <span
                                   role="img"
                                   aria-label="Country Flag"
@@ -374,7 +377,7 @@ function HomepageProviderSearch() {
                                 >
                                   <ReactCountryFlag
                                     countryCode={getCountryValue(
-                                      provider.country
+                                      provider.metadata.country
                                     )}
                                     svg
                                   />
@@ -392,10 +395,12 @@ function HomepageProviderSearch() {
                                 </span>
                               )}
                               <span className="text-sm ml-2 py-1">
-                                {provider.city}
+                                {/*provider.city */}
                               </span>
                             </h3>
-                            <p className="text-gray-500">{provider.reason}</p>
+                            <p className="text-gray-500">
+                              {provider.sales_pitch}
+                            </p>
                             {/*  <p className="text-black py-1">
                               {provider.keywords}
                             </p> */}
@@ -431,7 +436,7 @@ function HomepageProviderSearch() {
                               <button
                                 type="button"
                                 onClick={() => {
-                                  handleChatButtonClick(provider.chatkey);
+                                  handleChatButtonClick(provider.id);
                                 }}
                                 className="bg-[#2448c6] hover:bg-[#4865cc] text-white font-bold py-1 px-1  m-1 rounded-md w-24 "
                               >
