@@ -26,7 +26,7 @@ const nextConfig = {
     return config;
   },
   reactStrictMode: true,
-  distDir: 'dist',
+  distDir: 'build',
   // output: 'export',
 };
 
