@@ -24,7 +24,8 @@ const nextConfig = {
     });
     return config;
   },
-  reactStrictMode: false,
+  reactStrictMode: true,
+  distDir: 'dist'
 };
 
 module.exports = nextConfig;
