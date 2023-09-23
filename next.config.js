@@ -2,6 +2,7 @@
 const nextConfig = {
   images: {
     disableStaticImages: true,
+    unoptimized: true,
   },
   webpack: (config, options) => {
     const { isServer } = options;
@@ -25,7 +26,8 @@ const nextConfig = {
     return config;
   },
   reactStrictMode: true,
-  distDir: 'dist'
+  distDir: 'dist',
+  // output: 'export',
 };
 
 module.exports = nextConfig;
