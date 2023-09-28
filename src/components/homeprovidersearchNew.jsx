@@ -235,7 +235,7 @@ function HomepageProviderSearch() {
             <span class="block text-cool-indigo-600"></span>
           </h1>
           <p class="max-w-md mx-auto mt-3 text-base text-gray-200 sm:text-lg md:mt-5 md:text-xl md:max-w-3xl">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed
+            Lorem ipsum dolor sit amet amet, consectetur adipiscing elit. Sed
             pellentesque, libero id aliquet eleifend, mi felis aliquam lacus, ac
             luctus odio mauris ut nunc. Nullam ex nisl.
           </p>
