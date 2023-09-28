@@ -1,5 +1,5 @@
 //export const BACKEND_URL = "http://localhost:5000";
-export const BACKEND_URL = "https://goopim.herokuapp.com";
+export const BACKEND_URL = "https://goopim.com/api";
 export const COMETCHAT_KEYS = {
   APP_ID: "2399887cdeccbaac",
   REGION: "eu",
