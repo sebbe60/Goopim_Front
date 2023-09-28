@@ -19,7 +19,7 @@ export default function HomePage() {
         <div className="mx-auto max-w-2xl py-32 sm:py-35 lg:py-45">
           <div className="text-center">
             <h1 className="text-4xl font-bold tracking-tight text-gray-900 sm:text-6xl">
-              Find the best freelancer using AI
+              Find the best freelancer using AI*
             </h1>
             <p className="mt-6 text-lg leading-8 text-gray-600">
               Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui
