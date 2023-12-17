@@ -1,5 +1,5 @@
 //export const BACKEND_URL = "http://localhost:5000";
-export const BACKEND_URL = "http://54.161.15.104:5000";
+export const BACKEND_URL = "http://goopim.com/api";
 export const COMETCHAT_KEYS = {
   APP_ID: "2399887cdeccbaac",
   REGION: "eu",
