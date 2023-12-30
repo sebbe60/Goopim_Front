@@ -459,7 +459,7 @@ const Navbar = () => {
           onClick={handleCloseModal}
         >
           <section
-            className="h-[500px] max-h-[500px] w-[900px] relative bg-white rounded-lg"
+            className="h-[600px] max-h-[600px] w-[900px] relative bg-white rounded-lg"
             onClick={handleChildClick}
           >
             <div className="flex justify-end absolute right-0 top-0">

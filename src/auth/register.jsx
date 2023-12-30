@@ -12,10 +12,11 @@ function Register(props) {
     password: "",
     first_name: "",
     last_name: "",
+    username: "",
     is_provider: false,
     is_user: false,
   });
-
+  const [isUsernameAvailable, setIsUsernameAvailable] = useState(true);
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -49,9 +50,45 @@ function Register(props) {
     try {
       const res = await axios.post(`${BACKEND_URL}/register`, formData);
       toast.success(res.data.message);
-      props.setLoginView(true);
+      if (res.data.message === "registered successfully") {
+        props.gotoLoginView();
+      }
     } catch (err) {
       toast.error(err.response.data.message);
+    }
+  };
+
+  const handleUsernameInputChange = (event) => {
+    const name = event.target.name;
+    const value = event.target.value;
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value.toLowerCase(),
+    }));
+
+    if (name === "username" && value.length >= 4) {
+      // Make the API request to check the availability of the username
+      fetch(`${BACKEND_URL}/check_username`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          // Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({ goopim_username: value }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.exists) {
+            // Username is taken
+            setIsUsernameAvailable(false);
+          } else {
+            // Username is available
+            setIsUsernameAvailable(true);
+          }
+        })
+        .catch((error) => {
+          console.error("Error checking username availability:", error);
+        });
     }
   };
 
@@ -130,6 +167,38 @@ function Register(props) {
                 required
               />
             </div>
+          </div>
+          <div className="mb-4">
+            <label
+              htmlFor="username"
+              className="block text-gray-700 font-bold mb-2"
+            >
+              Username
+            </label>
+            <input
+              className={`shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none ${
+                formData?.username?.length >= 4
+                  ? isUsernameAvailable
+                    ? "border-green-500"
+                    : "border-red-500"
+                  : ""
+              }`}
+              type="text"
+              name="username"
+              value={formData.username}
+              onChange={handleUsernameInputChange}
+              onBlur={handleUsernameInputChange}
+              required
+            />
+            {formData?.username?.length >= 4 ? (
+              isUsernameAvailable ? (
+                <p className="text-green-500">Username is available</p>
+              ) : (
+                <p className="text-red-500">Username is taken</p>
+              )
+            ) : (
+              ""
+            )}
           </div>
           <div className="mb-4">
             <label
