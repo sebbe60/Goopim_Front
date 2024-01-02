@@ -28,7 +28,7 @@ jobs:
 
           ssh -o StrictHostKeyChecking=no -i private_key ${USER_NAME}@${HOST_NAME} '
             PORT=3000
-            PID=$(lsof -t -i:$PORT)
+            PID=$(sudo lsof -t -i:$PORT)
 
             if [ -n "$PID" ]; then
               echo "Process found on port $PORT with PID: $PID"
