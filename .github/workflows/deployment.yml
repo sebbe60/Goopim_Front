@@ -32,7 +32,7 @@ jobs:
 
             if [ -n "$PID" ]; then
               echo "Process found on port $PORT with PID: $PID"
-              echo "Killing process..."
+              echo "Killing process...."
               sudo kill -9 $PID
               echo "Process killed successfully"
             else
