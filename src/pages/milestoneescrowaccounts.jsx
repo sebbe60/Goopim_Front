@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import useLocalStorage from "use-local-storage";
 import { AuthContext } from "../pages/_app";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 
 const MilestoneEscrowAccountsTable = ({
   milestoneEscrowAccounts,

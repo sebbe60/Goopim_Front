@@ -4,12 +4,12 @@ import useLocalStorage from "use-local-storage";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import Link from "next/link";
 import Image from "next/image";
 import ReactCountryFlag from "react-country-flag";
 import StarIcon from "@heroicons/react/20/solid";
-import Countries from "@/commons/countries";
+import Countries from "../commons/countries";
 
 function ProviderSearch() {
   const [projectDescription, setProjectDescription] = useState("");

@@ -8,7 +8,7 @@ import {
 } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import Link from "next/link";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import { ToastContainer, toast } from "react-toastify";
 import { set } from "react-hook-form";
 const secretKey = process.env.NEXT_PUBLIC_STRIPE_SECRET_KEY;

@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import { selectAuthState } from "../../store/slices/authSlice";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../../utils";
 
 import { Col, Row } from "react-grid-system";
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { useRouter } from "next/router";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../../utils";
 import DeliverablesTable from "../deliverables";
 import MilestoneEscrowAccountsTable from "../milestoneescrowaccounts";
 import QuotesTable from "../quotes";

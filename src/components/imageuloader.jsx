@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDropzone } from "react-dropzone";
 import axios from "axios";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 const ImageUploader = (props) => {
   const [selectedFile, setSelectedFile] = useState(null);
 

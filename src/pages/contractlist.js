@@ -7,7 +7,7 @@ import useLocalStorage from "use-local-storage";
 import { useContext } from "react";
 import { useRouter } from "next/router";
 import { AuthContext } from "./_app";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import io from "socket.io-client";
 import { useSelector } from "react-redux";
 import { selectAuthUser, selectAuthState } from "../store/slices/authSlice";
@@ -15,7 +15,7 @@ import { selectAuthUser, selectAuthState } from "../store/slices/authSlice";
 //const socket = io("http://localhost:5000");
 //comments
 import { socket } from "../components/socketio";
-import InlineContractDeposit from "@/components/acceptcontract";
+import InlineContractDeposit from "../components/acceptcontract";
 
 const UserRooms = (props) => {
   const [paymentPopup, setPaymentPopup] = useState(false);

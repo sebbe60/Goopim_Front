@@ -14,7 +14,7 @@ import "react-chat-elements/dist/main.css";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import { useRouter } from "next/router";
 import axios from "axios";
 import useLocalStorage from "use-local-storage";

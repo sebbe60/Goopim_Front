@@ -9,13 +9,13 @@ import {
   ArrowsPointingOutIcon,
 } from "@heroicons/react/24/outline";
 import { useDispatch } from "react-redux";
-import { setAuthState } from "@/store/slices/authSlice";
+import { setAuthState } from "../store/slices/authSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import axios from "axios";
-import Login from "@/auth/login";
-import Register from "@/auth/register";
+import Login from "../auth/login";
+import Register from "../auth/register";
 
 const navigation = [
   { name: "Projects", href: "/myprojects" },
@@ -132,7 +132,7 @@ const Navbar = () => {
 
   const handleChildClick = (e) => {
     e.stopPropagation();
-    console.log("child");
+    
   };
 
   return (
@@ -140,12 +140,11 @@ const Navbar = () => {
       <header className="top-0 fixed w-full left-0 z-50">
         <nav
           /* className="flex items-center justify-between p-6 lg:px-8 fixed top-0 w-full z-50 bg-inherit shadow" */
-          href="/landingpage"
           className={`text-sm font-semibold leading-6 cursor-pointer transition duration-300 ease-in-out ${
             router.pathname === "/landingpage"
               ? "flex items-center justify-between px-6 py-3 lg:px-8 fixed top-0 w-full"
               : "flex items-center justify-between px-6 py-3 lg:px-8 fixed top-0 w-full"
-          } ${isScrolled ? "" : "bg-transparent"}
+          } ${isScrolled ? "bg-[#000000cc]" : "bg-[#1546a3]"}
         `}
           aria-label="Global"
         >
@@ -217,15 +216,17 @@ const Navbar = () => {
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {!isLoggedIn && (
               <>
-                <div
-                  onClick={() => handleOpenLoginModal()}
+                <Link 
+                  href={`/login`}
+                  // onClick={() => handleOpenLoginModal()}
                   className={`text-sm capitalize font-semibold leading-6 rounded  px-5 py-4 cursor-pointer text-white mr-3`}
                 >
                   LOG IN
-                </div>
+                </Link>
 
-                <div
-                  onClick={() => handleOpenRegisterModal()}
+                <Link
+                  href={`/register`}
+                  // onClick={() => handleOpenRegisterModal()}
                   className={`text-sm capitalize leading-6 px-5 py-2 flex justify-center items-center cursor-pointer bg-white`}
                 >
                   <img
@@ -234,7 +235,7 @@ const Navbar = () => {
                     alt="GOOPIM"
                   />
                   GET STARTED
-                </div>
+                </Link>
               </>
             )}
             {isLoggedIn && (
@@ -418,15 +419,17 @@ const Navbar = () => {
                 <div className="py-6">
                   {!isLoggedIn && (
                     <>
-                      <div
-                        onClick={() => handleOpenLoginModal()}
+                      <Link
+                        href={`/login`}
+                        // onClick={() => handleOpenLoginModal()}
                         className={`-mx-3 block uppercase rounded-lg px-3 py-2 text-base font-bold leading-7 cursor-pointer text-white`}
                       >
                         Log in
-                      </div>
+                      </Link>
 
-                      <div
-                        onClick={() => handleOpenRegisterModal()}
+                      <Link
+                        href={`/register`}
+                        // onClick={() => handleOpenRegisterModal()}
                         className={`text-sm mt-5 capitalize leading-6 px-5 py-2 flex justify-center items-center cursor-pointer bg-white`}
                       >
                         <img
@@ -435,7 +438,7 @@ const Navbar = () => {
                           alt="GOOPIM"
                         />
                         GET STARTED
-                      </div>
+                      </Link>
                     </>
                   )}
                   {isLoggedIn && (
@@ -459,7 +462,7 @@ const Navbar = () => {
           onClick={handleCloseModal}
         >
           <section
-            className="h-[600px] max-h-[600px] w-[900px] relative bg-white rounded-lg"
+            className="h-[500px] max-h-[500px] w-[900px] relative bg-white rounded-lg"
             onClick={handleChildClick}
           >
             <div className="flex justify-end absolute right-0 top-0">

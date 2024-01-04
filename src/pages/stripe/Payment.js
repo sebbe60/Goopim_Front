@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../../utils";
 
 function Payment() {
   const [amount, setAmount] = useState("");

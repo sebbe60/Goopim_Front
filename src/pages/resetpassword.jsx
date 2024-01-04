@@ -6,9 +6,10 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
-import { setAuthUser } from "@/store/slices/authSlice";
-import { setAuthState } from "@/store/slices/authSlice";
+import { BACKEND_URL } from "../utils";
+import { setAuthUser } from "../store/slices/authSlice";
+import { setAuthState } from "../store/slices/authSlice";
+import Image from "next/image";
 const RequestResetPassword = () => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
@@ -36,40 +37,89 @@ const RequestResetPassword = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen justify-center items-center mt-12">
-      <ToastContainer />
-      <h1 className="text-3xl font-bold mb-4">Reset Password</h1>
-      {message == "" ? (
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-          <div className="flex flex-col">
-            <label htmlFor="email" className="mb-2 font-medium">
-              Email
-            </label>
-            <input
-              id="email"
-              type="email"
-              placeholder="johndoe@gmail.com"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
-              required
-            />
-          </div>
+    <>
+      {/* <div className="flex flex-col h-screen justify-center items-center mt-12">
+        <ToastContainer />
+        <h1 className="text-3xl font-bold mb-4">Reset Password</h1>
+        {message == "" ? (
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            <div className="flex flex-col">
+              <label htmlFor="email" className="mb-2 font-medium">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                placeholder="johndoe@gmail.com"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                required
+              />
+            </div>
 
-          <button
-            type="submit"
-            className={`py-2 px-4 bg-blue-500 text-white font-medium rounded-md focus:outline-none ${
-              loading ? "opacity-50 cursor-not-allowed" : ""
-            }`}
-            disabled={loading}
-          >
-            {loading ? "Loading..." : "Reset"}
-          </button>
-        </form>
-      ) : (
-        <div className="text-secondary">{message}</div>
-      )}
+            <button
+              type="submit"
+              className={`py-2 px-4 bg-blue-500 text-white font-medium rounded-md focus:outline-none ${
+                loading ? "opacity-50 cursor-not-allowed" : ""
+              }`}
+              disabled={loading}
+            >
+              {loading ? "Loading..." : "Reset"}
+            </button>
+          </form>
+        ) : (
+          <div className="text-secondary">{message}</div>
+        )}
+      </div> */}
+
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="p-5 flex rounded-2xl shadow-lg max-w-7xl">
+        <div className="md:w-1/2 px-5">
+
+            <ToastContainer />
+            <h4 className="text-xl font-bold mb-4">Reset Password</h4>
+            {message == "" ? (
+              <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                <div className="flex flex-col">
+                  <label htmlFor="email" className="mb-2 font-medium">
+                    Email
+                  </label>
+                  <input
+                    id="email"
+                    type="email"
+                    placeholder="Enter Your Email Address"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    className="px-4 py-2 border border-gray-400 rounded-md focus:outline-none focus:border-blue-500"
+                    required
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className={`py-2 px-4 bg-blue-500 text-white font-medium rounded-md focus:outline-none ${
+                    loading ? "opacity-50 cursor-not-allowed" : ""
+                  }`}
+                  disabled={loading}
+                >
+                  {loading ? "Loading..." : "Reset"}
+                </button>
+              </form>
+            ) : (
+              <div className="text-secondary">{message}</div>
+            )}
+
+        </div>
+        <div className="w-1/2 hidden md:grid md:items-center">
+          <Image src="/draw2.webp" width={400} height={600} className="rounded-2xl" alt="page img" />
+        </div>
+
+      </div>
     </div>
+
+    </>
+    
   );
 };
 

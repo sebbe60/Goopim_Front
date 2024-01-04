@@ -3,13 +3,13 @@ import axios from "axios";
 
 import { useRouter } from "next/router";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 
-import { setAuthUser } from "@/store/slices/authSlice";
-import { setAuthState } from "@/store/slices/authSlice";
+import { setAuthUser } from "../store/slices/authSlice";
+import { setAuthState } from "../store/slices/authSlice";
 function Login(props) {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");

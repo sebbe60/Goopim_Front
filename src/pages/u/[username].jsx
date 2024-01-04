@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../../utils";
 import { NewProfilePage } from "../myprofile";
 const UserPage = () => {
   const router = useRouter();

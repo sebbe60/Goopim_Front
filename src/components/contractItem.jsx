@@ -1,5 +1,5 @@
-import ContractForm from "@/pages/createcontract";
-import EditContractForm from "@/pages/editcotract";
+import ContractForm from "../pages/createcontract";
+import EditContractForm from "../pages/editcotract";
 import { useState } from "react";
 import useLocalStorage from "use-local-storage";
 const ContractItem = (props) => {

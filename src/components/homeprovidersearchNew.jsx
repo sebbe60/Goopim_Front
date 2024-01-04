@@ -4,16 +4,16 @@ import useLocalStorage from "use-local-storage";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import Link from "next/link";
 import Image from "next/image";
 import ReactCountryFlag from "react-country-flag";
-import Countries from "@/commons/countries";
+import Countries from "../commons/countries";
 
 import { useDispatch } from "react-redux";
-import NewContract from "@/pages/newcontract";
-import Login from "@/auth/login";
-import Register from "@/auth/register";
+import NewContract from "../pages/newcontract";
+import Login from "../auth/login";
+import Register from "../auth/register";
 
 const TypewriterSearchBox = (props) => {
   const searchQueries = [
@@ -158,6 +158,7 @@ function HomepageProviderSearch() {
           budget: budget,
         }
       );
+      console.log("🚀 ~ file: homeprovidersearchNew.jsx:161 ~ handleSubmit ~ response:", response)
       setProviders(response.data.recommended_providers);
       toast.success("Done!");
       setResultIsAvailable(true);
@@ -183,7 +184,7 @@ function HomepageProviderSearch() {
       let receiverID = receiver_id;
 
       let receiverType = CometChat.RECEIVER_TYPE.USER;
-      let messageText = "Hi, I want to hire you for me project";
+      let messageText = "Hi, I want to hire you for my project";
 
       const message = new CometChat.TextMessage(
         receiver_id,
@@ -203,7 +204,7 @@ function HomepageProviderSearch() {
       //dispatch(setReceiverId(receiver_id));
       //window.CometChatWidget.chatWithUser(receiver_id);
     } else {
-      setShowModal(true);
+      router.push(`/login`);
     }
   };
   const handleCloseModal = () => {
@@ -338,124 +339,95 @@ function HomepageProviderSearch() {
 
               {resultIsAvailable && providers.length > 0 ? (
                 <>
-                  <div className="bg-white rounded">
-                    <ul className="divide-y divide-gray-200">
-                      {providers.map((provider) => (
-                        <li
-                          key={provider.id}
-                          className="p-4 flex flex-col sm:flex-row items-center hover:bg-blue-100"
-                        >
-                          <div className="flex-shrink-0">
-                            <img
-                              className="h-12 w-12 bg-blue-100 rounded-full"
-                              src={provider.metadata.profile_picture}
-                              alt={provider.metadata.name}
-                            />
-                          </div>
-                          <div className="ml-3 py-1">
-                            <h3 className="text-lg font-medium text-gray-900">
-                              {provider.metadata.name}
-                              <Link
-                                href={`${BACKEND_URL}/u/${provider.metadata.username}`}
-                                className="mx-1"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                @{provider.metadata.username}
-                              </Link>
-                              {/* <span className="text-gray-500 text-sm ml-2">
-                                ({provider.rating})
-                              </span> */}
-                              <span className="text-gray-500 text-sm ml-2">
-                                {provider.metadata.hourly_rate} USD / hour
-                              </span>
-                              {provider.metadata.country != "" ? (
-                                <span
-                                  role="img"
-                                  aria-label="Country Flag"
-                                  className="ml-2"
-                                >
-                                  <ReactCountryFlag
-                                    countryCode={getCountryValue(
-                                      provider.metadata.country
-                                    )}
-                                    svg
-                                  />
+                  <div className="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
+                    {providers.map(provider =>{
+                      return (
+                        <div className="w-full" key={provider.id}>
+                            
+                            <div className="bg-white mx-10 relative rounded my-10 h-[400px]">
+                              <div className="p-12 pb-0">
+                                <Image
+                                  src={provider.metadata.profile_picture}
+                                  alt={provider.metadata.name}
+                                  width={50}
+                                  height={10}
+                                  className="m-auto rounded-md"
+                                />
+                                <h4 className="text-md font-bold text-blue-500 mt-3">{provider.metadata.name}</h4>
+                                <span>
+                                  <Link
+                                    href={`${BACKEND_URL}/u/${provider.metadata.username}`}
+                                    className="text-sm text-gray-500"
+                                    target="_blank"
+                                    rel={provider.metadata.name}
+                                  >
+                                    @{provider.metadata.username}
+                                  </Link>
                                 </span>
-                              ) : (
-                                <span
-                                  role="img"
-                                  aria-label="Country Flag"
-                                  className="ml-2"
+
+                                {provider.metadata.country != "" ? (
+                                  <span
+                                    role="img"
+                                    aria-label="Country Flag"
+                                    className="ml-2"
+                                  >
+                                    <ReactCountryFlag
+                                      countryCode={getCountryValue(
+                                        provider.metadata.country
+                                      )}
+                                      svg
+                                    />
+                                  </span>
+                                ) : (
+                                  <span
+                                    role="img"
+                                    aria-label="Country Flag"
+                                    className="ml-2"
+                                  >
+                                    <ReactCountryFlag
+                                      countryCode={getCountryValue("Sweden")}
+                                      svg
+                                    />
+                                  </span>
+                                )}
+
+                                <ul className="p-0 text-left mt-6">
+                                  <li className="flex">
+                                  <svg fill="#1546a3" xmlns="http://www.w3.org/2000/svg" height="1.8em" viewBox="0 0 512 512"><path d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM216 336h24V272H216c-13.3 0-24-10.7-24-24s10.7-24 24-24h48c13.3 0 24 10.7 24 24v88h8c13.3 0 24 10.7 24 24s-10.7 24-24 24H216c-13.3 0-24-10.7-24-24s10.7-24 24-24zm40-208a32 32 0 1 1 0 64 32 32 0 1 1 0-64z"/>
+                                  </svg> <span className="ml-2 capitalize">{provider.metadata.description}</span>
+                                    </li>
+                                  <li className="flex mt-3 items-center">
+                                  <svg fill="#1546a3" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 576 512"><path d="M64 64C28.7 64 0 92.7 0 128V384c0 35.3 28.7 64 64 64H512c35.3 0 64-28.7 64-64V128c0-35.3-28.7-64-64-64H64zm64 320H64V320c35.3 0 64 28.7 64 64zM64 192V128h64c0 35.3-28.7 64-64 64zM448 384c0-35.3 28.7-64 64-64v64H448zm64-192c-35.3 0-64-28.7-64-64h64v64zM288 160a96 96 0 1 1 0 192 96 96 0 1 1 0-192z"/></svg> 
+                                  <span className="ml-2">{provider.metadata.hourly_rate} USD / hour</span>
+                                    </li>
+                                </ul>
+                              </div>
+                            {/* button part */}
+                              <div className="flex absolute w-full bottom-0 justify-around mt-10 ">
+                                <button
+                                  type="button"
+                                  onClick={() => {
+                                    handleChatButtonClick(provider.id);
+                                  }}
+                                  className="text-gray-400 border-2 py-3 border-gray-300 font-bold w-1/2 hover:text-[#4387f6]"
                                 >
-                                  <ReactCountryFlag
-                                    countryCode={getCountryValue("Sweden")}
-                                    svg
-                                  />
-                                </span>
-                              )}
-                              <span className="text-sm ml-2 py-1">
-                                {/*provider.city */}
-                              </span>
-                            </h3>
-                            <p className="text-gray-500">
-                              {provider.sales_pitch}
-                            </p>
-                            {/*  <p className="text-black py-1">
-                              {provider.keywords}
-                            </p> */}
-                            {/*       <div className="flex flex-col sm:flex-row items-center py-1">
-                              {provider.companies_worked_with.length > 0 ? (
-                                <span className="mx-1">Worked with:</span>
-                              ) : (
-                                ""
-                              )}
-                              {provider.companies_worked_with?.map(
-                                (company) =>
-                                  company.logo_url && (
-                                    <div className="flex bg-gray-100 py-1 px-8">
-                                      <Image
-                                        key={company.id}
-                                        width={20}
-                                        height={20}
-                                        src={company.logo_url}
-                                        className="m-h-4 m-w-4 mx-2"
-                                      />
-                                      <span className="ml-2 m-h-4 m-w-4">
-                                        {company.name}
-                                      </span>
-                                    </div>
-                                  )
-                              )}
-                            </div> */}
-                          </div>
+                                  Message
+                                </button>
 
-                          <div className="ml-3">
-                            {" "}
-                            <div className="mt-2 flex justify-between sm:flex-col">
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  handleChatButtonClick(provider.id);
-                                }}
-                                className="bg-[#2448c6] hover:bg-[#4865cc] text-white font-bold py-1 px-1  m-1 rounded-md w-24 "
-                              >
-                                Message
-                              </button>
-
-                              <button
-                                onClick={() => {
-                                  openPopup(provider.id);
-                                }}
-                                className="bg-[#038428] hover:bg-[#2b9f4ce1] text-white font-bold py-1 px-1  m-1 rounded-md w-24"
-                              >
-                                Hire me
-                              </button>
+                                <button
+                                  onClick={() => {
+                                    openPopup(provider.id);
+                                  }}
+                                  className="text-gray-400 border-l-0 py-3 border-2 border-gray-300 font-bold w-1/2 hover:text-[#4387f6]"
+                                >
+                                  Hire me
+                                </button>
+                              </div>
+                            
                             </div>
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
+                        </div>
+                      )
+                    })}
                   </div>
                 </>
               ) : (
@@ -468,7 +440,7 @@ function HomepageProviderSearch() {
                   onClick={handleCloseModal}
                 >
                   <section
-                    className="h-[600px] max-h-[600px] w-[900px] relative bg-white rounded-lg"
+                    className="h-[500px] max-h-[500px] w-[900px] relative bg-white rounded-lg"
                     onClick={handleChildClick}
                   >
                     <div className="flex justify-end absolute right-0 top-0">

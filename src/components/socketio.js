@@ -1,4 +1,4 @@
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import io from "socket.io-client";
 
 //export const socket = io("http://localhost:5000");

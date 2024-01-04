@@ -3,53 +3,15 @@ import { useEffect, useState } from "react";
 import { Elements } from "@stripe/react-stripe-js";
 import CheckoutForm from "./CheckoutForm";
 import { loadStripe } from "@stripe/stripe-js";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../../utils";
 
-function Payment() {
+function Payment({modalClose}) {
   const [amount, setAmount] = useState("30");
   const [stripePromise, setStripePromise] = useState(null);
   const [clientSecret, setClientSecret] = useState("");
   const [readyToPay, setReadyToPay] = useState(false);
   const [loading, setLoading] = useState(false);
-  const appearance2 = {
-    theme: "stripe",
-
-    variables: {
-      colorPrimary: "#0570de",
-      colorBackground: "#ffffff",
-      colorText: "#30313d",
-      colorDanger: "#df1b41",
-      fontFamily: "Ideal Sans, system-ui, sans-serif",
-      spacingUnit: "2px",
-      borderRadius: "4px",
-      // See all possible variables below
-    },
-  };
-
-  const appearance1 = {
-    theme: "night",
-    variables: {
-      fontFamily: "Sohne, system-ui, sans-serif",
-      fontWeightNormal: "500",
-      borderRadius: "8px",
-      colorBackground: "#0A2540",
-      colorPrimary: "#EFC078",
-      colorPrimaryText: "#1A1B25",
-      colorText: "white",
-      colorTextSecondary: "#0A2540",
-      colorTextPlaceholder: "#727F96",
-      colorIconTab: "white",
-      colorLogo: "dark",
-      colorDanger: "#df1b41",
-      borderRadius: "4px",
-    },
-    rules: {
-      ".Input, .Block": {
-        backgroundColor: "transparent",
-        border: "1.5px solid var(--colorPrimary)",
-      },
-    },
-  };
+  
   const appearance3 = {
     theme: "stripe",
     variables: {
@@ -76,13 +38,6 @@ function Payment() {
         backgroundColor: "#2446A4",
         color: "#fff",
       },
-    },
-  };
-  const appearance = {
-    theme: "night",
-    labels: "floating",
-    variables: {
-      borderRadius: "4px",
     },
   };
   useEffect(() => {
@@ -117,39 +72,45 @@ function Payment() {
   };
 
   return (
-    <div className=" mt-40 flex flex-col items-center rounded-sm ">
+    <>
       {!readyToPay && (
-        <div className="flex flex-col bg-white p-10 background-shadow-md rounded-xl mt-30">
-          <div className="flex w-full justify-between border-b font-bold text-md my-2">
-            <p>Select amount</p>
-            <span>(USD)</span>
+        <div className="bg-white p-10 w-full background-shadow-md rounded-xl">
+          <div className="border-b pb-4 font-bold text-md my-2">
+            <h2 className="capitalize">make a payment to increase the balance in your account.</h2>
           </div>
 
-          <div className="w-full flex flex-row justify-between my-2">
-            <p> Enter Amount</p>
-          </div>
-
-          <div className="flex justify-between  my-2">
-            <span className="font-bold mr-2">$</span>
+          <div className="my-2">
+          <label className="block text-gray-700">Enter Amount</label>
             <input
               type="text"
               name="amount"
               value={amount}
+              placeholder="$"
               onChange={updateAmount}
-              className="border border-blue-500"
+              className="w-full px-4 py-2 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
             />
           </div>
-          <div className="flex justify-between my-2">
-            <p className="font-bold">Payment due</p>
+          <div className="flex justify-between my-3">
+            <p className="text-gray-700">Payment due</p>
             <span>${amount}.00</span>
           </div>
-          <button
+          <div className="flex justify-end">
+            <button 
             type="button"
-            className="bg-[#3A6EE4] text-white font-bold px-2 py-2 rounded"
-            onClick={handleDeposit}
-          >
+            className="bg-gray-300 px-6 py-2 rounded mr-4"
+            onClick={modalClose}
+            >
+              Close
+            </button>
+            <button
+              type="button"
+              className="bg-[#3A6EE4] text-white font-bold px-2 py-2 rounded"
+              onClick={handleDeposit}
+            >
+          
             {loading ? (
               <>
+                <div className="flex justify-center">
                 <svg
                   aria-hidden="true"
                   className="w-8 h-8 mr-2 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600"
@@ -167,24 +128,41 @@ function Payment() {
                   />
                 </svg>
                 <span className="">Loading...</span>
+                </div>
               </>
             ) : (
               `Confirm and pay $${amount} USD`
             )}
           </button>
+          </div>
         </div>
       )}
-      <div className="bg-[#212D63] rounded-xl">
-        {clientSecret && stripePromise && readyToPay && (
-          <Elements
-            stripe={stripePromise}
-            options={{ clientSecret, appearance }}
-          >
-            <CheckoutForm amount={amount} />
-          </Elements>
-        )}
+      {clientSecret && stripePromise && readyToPay && (
+      <div className="bg-white rounded-xl py-4">
+          <div className="p-8">
+            <button className="flex items-center gap-2" onClick={()=> setReadyToPay(false)}>
+              <span>
+              <svg xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 448 512"><path d="M9.4 233.4c-12.5 12.5-12.5 32.8 0 45.3l160 160c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3L109.2 288 416 288c17.7 0 32-14.3 32-32s-14.3-32-32-32l-306.7 0L214.6 118.6c12.5-12.5 12.5-32.8 0-45.3s-32.8-12.5-45.3 0l-160 160z"/></svg>
+              </span> <span>Back</span>
+            </button>
+
+            <p className="mt-2">Complete Your Payment Details for a Seamless Transaction</p>
+            <h2 className="mt-4 ml-6 text-gray-500">Pay Out</h2>
+            <h1 className="mt-2 ml-6 text-5xl">${amount}</h1>
+          </div>
+          
+        <div className="p-8 border-t-2 border-gray-200">
+            <Elements
+              stripe={stripePromise}
+              options={{ clientSecret, appearance3 }}
+            >
+              <CheckoutForm amount={amount} />
+            </Elements>
+          
+        </div>
       </div>
-    </div>
+      )}
+    </>
   );
 }
 

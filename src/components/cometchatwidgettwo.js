@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectReceiverId } from "@/store/slices/authSlice";
+import { selectReceiverId } from "../store/slices/authSlice";
 
 const CometChatWidget = () => {
   var cometChatWidget;

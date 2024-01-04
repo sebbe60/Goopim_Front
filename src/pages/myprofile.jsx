@@ -1,28 +1,28 @@
 import { useContext, useEffect, useState } from "react";
 
 import Image from "next/image";
-import StarRating from "@/components/starrating";
+import StarRating from "../components/starrating";
 import Link from "next/link";
 import axios from "axios";
 import Cookies from "js-cookie";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import { AuthContext } from "./_app";
-import FreelancerProfile from "@/components/lancerprofile";
+import FreelancerProfile from "../components/lancerprofile";
 import { useSelector } from "react-redux";
 import Select from "react-select";
 import { selectAuthUser, selectAuthState } from "../store/slices/authSlice";
-import ImageUploader from "@/components/imageuloader";
+import ImageUploader from "../components/imageuloader";
 import ReactCountryFlag from "react-country-flag";
-import Countries from "@/commons/countries";
-import CloudinaryUploader from "@/components/profileimageupload";
-import GoopimUserAddress from "@/components/usersaddress";
-import ProfileCoverUploader from "@/components/profilecoveruploader";
+import Countries from "../commons/countries";
+import CloudinaryUploader from "../components/profileimageupload";
+import GoopimUserAddress from "../components/usersaddress";
+import ProfileCoverUploader from "../components/profilecoveruploader";
 import useLocalStorage from "use-local-storage";
 import NewContract from "./newcontract";
-import { auth } from "@/auth/auth";
+import { auth } from "../auth/auth";
 
 function MyProfile() {
   //const { isAuthenticated, user } = useContext(AuthContext);

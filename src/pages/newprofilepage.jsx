@@ -2,21 +2,21 @@ import { useContext, useEffect, useState } from "react";
 import { useRouter } from "next/router";
 
 import Image from "next/image";
-import StarRating from "@/components/starrating";
+import StarRating from "../components/starrating";
 import Link from "next/link";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import { AuthContext } from "../pages/_app";
-import FreelancerProfile from "@/components/lancerprofile";
+import FreelancerProfile from "../components/lancerprofile";
 import { useSelector } from "react-redux";
 import Select from "react-select";
 import { selectAuthUser, selectAuthState } from "../store/slices/authSlice";
-import ImageUploader from "@/components/imageuloader";
-import CloudinaryUploader from "@/components/profileimageupload";
-import GoopimUserAddress from "@/components/usersaddress";
-import ProfileCoverUploader from "@/components/profilecoveruploader";
+import ImageUploader from "../components/imageuloader";
+import CloudinaryUploader from "../components/profileimageupload";
+import GoopimUserAddress from "../components/usersaddress";
+import ProfileCoverUploader from "../components/profilecoveruploader";
 function MyProfile() {
   //const { isAuthenticated, user } = useContext(AuthContext);
   const authStatus = useSelector(selectAuthState);

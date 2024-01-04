@@ -9,9 +9,9 @@ import { Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/solid";
 import { LinkIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
-import HomepageProviderSearch from "@/components/homeprovidersearch";
-import LandingPageSections from "@/components/landingpagesections";
-import NewHomepage from "@/components/newhomepage";
+import HomepageProviderSearch from "../components/homeprovidersearch";
+import LandingPageSections from "../components/landingpagesections";
+import NewHomepage from "../components/newhomepage";
 
 const navigation = [
   { name: "Product", href: "#" },
@@ -69,7 +69,7 @@ export default function HomePage() {
         </div>
       </div> 
     */}
-      <LandingPageSections />
+      {/* <LandingPageSections /> */}
     </div>
   );
 }
