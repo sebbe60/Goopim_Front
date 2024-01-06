@@ -123,7 +123,7 @@ const Navbar = () => {
   }, [isLoggedIn]);
 
   const handleLogout = () => {
-    // Remove token from localStorage and redirect to homepage testtest
+    // Remove token from localStorage and redirect to homepage test
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     dispatch(setAuthState(false));
