@@ -123,7 +123,7 @@ const Navbar = () => {
   }, [isLoggedIn]);
 
   const handleLogout = () => {
-    // Remove token from localStorage and redirect to homepage
+    // Remove token from localStorage and redirect to homepage testtest
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     dispatch(setAuthState(false));
@@ -132,7 +132,6 @@ const Navbar = () => {
 
   const handleChildClick = (e) => {
     e.stopPropagation();
-    
   };
 
   return (
@@ -216,7 +215,7 @@ const Navbar = () => {
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
             {!isLoggedIn && (
               <>
-                <Link 
+                <Link
                   href={`/login`}
                   // onClick={() => handleOpenLoginModal()}
                   className={`text-sm capitalize font-semibold leading-6 rounded  px-5 py-4 cursor-pointer text-white mr-3`}
