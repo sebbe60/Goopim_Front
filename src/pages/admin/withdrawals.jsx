@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../../utils";
 function AdminWithdrawals() {
   const [pendingWithdrawals, setPendingWithdrawals] = useState([]);
   const [processingWithdrawals, setProcessingWithdrawals] = useState([]);

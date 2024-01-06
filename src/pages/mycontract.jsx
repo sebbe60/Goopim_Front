@@ -4,9 +4,9 @@ import { useRouter } from "next/router";
 import useLocalStorage from "use-local-storage";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 
-import ContractItem from "@/components/contractItem";
+import ContractItem from "../components/contractItem";
 
 const MyContracts = () => {
   const { query } = useRouter();

@@ -5,7 +5,7 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import DatetimePicker from "react-datetime-picker";
 import "react-datetime-picker/dist/DateTimePicker.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 
 const CreateTimeline = ({ projectId, setTimelines }) => {
   //const [projectID, setProjectID] = useState("");

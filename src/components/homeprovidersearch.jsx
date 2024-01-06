@@ -5,13 +5,13 @@ import useLocalStorage from "use-local-storage";
 import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import Link from "next/link";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import ReactCountryFlag from "react-country-flag";
 import StarIcon from "@heroicons/react/20/solid";
-import Countries from "@/commons/countries";
+import Countries from "../commons/countries";
 import AutoExpandTextarea from "./autotextarea";
 /* const CometChat = dynamic(() => import("@cometchat-pro/chat"), {
   ssr: false, // Disable server-side rendering for CometChat import
@@ -21,9 +21,9 @@ import AutoExpandTextarea from "./autotextarea";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 
-import { setAuthUser } from "@/store/slices/authSlice";
-import { setAuthState } from "@/store/slices/authSlice";
-import { setReceiverId } from "@/store/slices/authSlice";
+import { setAuthUser } from "../store/slices/authSlice";
+import { setAuthState } from "../store/slices/authSlice";
+import { setReceiverId } from "../store/slices/authSlice";
 const Login = (props) => {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");

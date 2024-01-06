@@ -1,6 +1,6 @@
 import { useContext, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectReceiverId } from "@/store/slices/authSlice";
+import { selectReceiverId } from "../store/slices/authSlice";
 
 const initializeCometChatWidget = () => {
   const dispatch = useDispatch();

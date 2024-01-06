@@ -6,9 +6,9 @@ import { useRouter } from "next/router";
 import Link from "next/link";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
-import { setAuthUser } from "@/store/slices/authSlice";
-import { setAuthState } from "@/store/slices/authSlice";
+import { BACKEND_URL } from "../utils";
+import { setAuthUser } from "../store/slices/authSlice";
+import { setAuthState } from "../store/slices/authSlice";
 const NewPassword = () => {
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");

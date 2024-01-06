@@ -1,4 +1,4 @@
-const { default: Wrappere } = require("@/components/deposit");
+const { default: Wrappere } = require("../components/deposit");
 
 function Deposit() {
   return (

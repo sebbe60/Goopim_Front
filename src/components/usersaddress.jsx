@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import { toFlagEmoji } from "react-emoji-render";
 import Select from "react-select";
-import Countries from "@/commons/countries";
+import Countries from "../commons/countries";
 import ReactCountryFlag from "react-country-flag";
 
 const AddressCreate = () => {

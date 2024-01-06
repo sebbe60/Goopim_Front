@@ -4,10 +4,10 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import Link from "next/link";
-import PaymentForm from "@/components/deposit";
-import Wrapper from "@/components/deposit";
-import Wrappere from "@/components/deposit";
-import { BACKEND_URL } from "@/utils";
+import PaymentForm from "../components/deposit";
+import Wrapper from "../components/deposit";
+import Wrappere from "../components/deposit";
+import { BACKEND_URL } from "../utils";
 function WithdrawalForm() {
   const {
     register,

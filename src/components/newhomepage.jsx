@@ -1,6 +1,6 @@
 import { TrophyIcon } from "@heroicons/react/24/outline";
-import HomepageProviderSearch from "@/components/homeprovidersearch";
-import HomepageProviderSearchNew from "@/components/homeprovidersearchNew";
+import HomepageProviderSearch from "./homeprovidersearch";
+import HomepageProviderSearchNew from "./homeprovidersearchNew";
 const NewHomepage = (props) => {
   return (
     <>

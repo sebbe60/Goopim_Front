@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import DeliverablesTable from "./deliverables";
 import MilestoneEscrowAccountsTable from "./milestoneescrowaccounts";
 import QuotesTable from "./quotes";

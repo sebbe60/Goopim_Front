@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../../utils";
 export default function DashboardMenu(props) {
   const navigate = useRouter();
   const [activeMenu, setActiveMenu] = useState(1);

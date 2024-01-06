@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 
 const CreateReview = ({ closePopup, projectId }) => {
   const [rating, setRating] = useState(0);

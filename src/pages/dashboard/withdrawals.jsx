@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../../utils";
 
 // EditPopup component for editing and saving an item
 const EditPopup = ({ item, onSave, onCancel, tab }) => {

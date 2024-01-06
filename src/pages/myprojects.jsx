@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { useRouter } from "next/router";
 import { AuthContext } from "../pages/_app";
 import useLocalStorage from "use-local-storage";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import { useSelector } from "react-redux";
 import { selectAuthState } from "../store/slices/authSlice";
 

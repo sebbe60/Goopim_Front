@@ -3,7 +3,7 @@ import useLocalStorage from "use-local-storage";
 import UserRooms from "./contractlist";
 import GooPimChat from "./goopimchat";
 import { io } from "socket.io-client";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import { useRouter } from "next/router";
 import { set } from "react-hook-form";
 //const socket = io(`https://goopim.herokuapp.com`);

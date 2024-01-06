@@ -4,8 +4,9 @@ import { useRouter } from "next/router";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../utils";
 import Link from "next/link";
+import Image from "next/image";
 
 const Register = () => {
   const router = useRouter();
@@ -95,7 +96,7 @@ const Register = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-gray-100 flex justify-center items-center mt-12">
+      {/* <div className="min-h-screen bg-gray-100 flex justify-center items-center mt-12">
         <ToastContainer />
         <form
           onSubmit={handleSubmit}
@@ -235,7 +236,145 @@ const Register = () => {
             <span className="text-blue-400">Already registed?</span>Login
           </Link>
         </form>
+      </div> */}
+
+      <div className="min-h-screen mt-20 flex items-center justify-center">
+          <div className="bg-gray-100 p-5 flex rounded-2xl shadow-lg max-w-7xl">
+            <div className="md:w-1/2 px-5">
+              <h2 className="text-2xl font-bold text-[#002D74]">Register Form</h2>
+              <ToastContainer />
+              <form className="mt-6" onSubmit={handleSubmit}>
+                
+                <div>
+                  <label className="block text-gray-700">First Name</label>
+                  
+                  <input
+                    type="text"
+                    name="first_name"
+                    placeholder="Enter First Name"
+                    value={formData.first_name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                    required 
+                  />
+                </div>
+
+                <div className="mt-4">
+                  <label className="block text-gray-700">Last Name</label>
+                  <input
+                    type="text"
+                    name="last_name"
+                    placeholder="Enter Last Name"
+                    value={formData.last_name}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                    required 
+                  />
+                </div>
+
+                <div className="mt-4">
+                  <label className="block text-gray-700">Username</label>
+                  <input
+                    placeholder="Enter Username"
+                    className={`w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none ${
+                      formData?.username?.length >= 4
+                        ? isUsernameAvailable
+                          ? "border-green-500"
+                          : "border-red-500"
+                        : ""
+                    }`}
+                    id="username"
+                    name="username"
+                    type="text"
+                    value={formData.username}
+                    onChange={handleUsernameInputChange}
+                    onBlur={handleUsernameInputChange}
+                  />
+                  {formData?.username?.length >= 4 ? (
+                    isUsernameAvailable ? (
+                      <p className="text-green-500">Username is available</p>
+                    ) : (
+                      <p className="text-red-500">Username is taken</p>
+                    )
+                  ) : (
+                    ""
+                  )}
+                </div>
+                
+                <div className="mt-4">
+                  <label className="block text-gray-700">Email Address</label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    placeholder="Enter Email Address"
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                    autofocus
+                    autocomplete 
+                    required
+                  />
+                </div>
+        
+                <div className="mt-4">
+                  <label className="block text-gray-700">Password</label>
+                  <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="w-full px-4 py-3 rounded-lg bg-gray-200 mt-2 border focus:border-blue-500 focus:bg-white focus:outline-none"
+                    required 
+                  />
+                </div>
+                <div className="mt-4">
+                  <label className="block text-gray-700 mb-3">Register as a freelancer?</label>
+                    <input
+                      type="checkbox"
+                      name="is_provider"
+                      checked={formData.is_provider}
+                      onChange={handleCheckboxChange}
+                      className="mr-2 leading-tight"
+                    />
+                    <span className="text-sm">I am a freelancer</span>
+
+                    <label className="block text-gray-700 text-sm font-bold mb-2 mt-4">
+                      <input
+                        type="checkbox"
+                        name="is_user"
+                        checked={formData.is_user}
+                        onChange={handleCheckboxChange}
+                        className="mr-2 leading-tight"
+                      />
+                      <span className="text-sm">I want to hire a freelancer</span>
+                    </label>
+                </div>
+                <button
+                  type="submit"
+                  className="w-full block bg-blue-500 hover:bg-blue-400 focus:bg-blue-400 text-white font-semibold rounded-lg px-4 py-3 mt-6">
+                    Register
+                </button>
+              </form>
+              <div className="mt-7 grid grid-cols-3 items-center text-gray-500">
+                <hr className="border-gray-500" />
+                <p className="text-center text-sm">OR</p>
+                <hr className="border-gray-500" />
+              </div>
+
+              <div className="text-sm flex justify-between items-center mt-3">
+                <p>If you have an account...</p>
+                <Link href={`/login`} className="py-2 px-5 ml-3 bg-white border rounded-xl hover:scale-110 duration-300 border-blue-400">Log In</Link>
+              </div>
+            </div>
+
+            <div className="w-1/2 hidden md:grid md:items-center">
+              <Image src="/draw2.webp" width={400} height={600} className="rounded-2xl" alt="page img" />
+            </div>
+
+          </div>
       </div>
+
     </>
   );
 };

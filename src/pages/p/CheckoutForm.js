@@ -43,7 +43,7 @@ export default function CheckoutForm(props) {
       <button
         disabled={isProcessing || !stripe || !elements}
         id="submit"
-        className="w-full bg-[#85D996] h-10 rounded-md"
+        className="w-full bg-[#192552] text-white h-10 rounded-md"
       >
         <span id="button-text">
           {isProcessing ? "Processing ... " : `Pay $${props.amount}`}

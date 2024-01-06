@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Image from "next/image";
-import { BACKEND_URL } from "@/utils";
+import { BACKEND_URL } from "../../utils";
 
 const CompanyManagement = () => {
   const [companies, setCompanies] = useState([]);
